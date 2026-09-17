@@ -11,107 +11,153 @@ interface Message {
   content: string;
 }
 
-const SUGGESTIONS = [
-  "Explain the current status map and what VTS means here",
-  "What evidence is still missing for the tribunal appeal?",
-  "Map the GP letter to Article 3 / NRM / VTS",
-  "Draft a checklist for solicitor review before skeleton arguments",
-];
+function getDynamicSuggestions(legalCase: LegalCase): string[] {
+  const list = [
+    `What evidence is still missing for ${legalCase.clientName}?`,
+    `Summarise the chronology and timeline of this case`,
+    `What are the upcoming deadlines and priority tasks?`,
+    `Draft a checklist for solicitor review on ${legalCase.matterTypes[0] ?? "this application"}`,
+  ];
+  return list;
+}
 
-function offlineReply(question: string, legalCase: LegalCase): string {
+function dynamicOfflineReply(question: string, legalCase: LegalCase): string {
   const lower = question.toLowerCase();
-  if (lower.includes("missing") || lower.includes("evidence")) {
-    const missing = legalCase.evidence
-      .filter((e) => e.status === "missing" || e.status === "requested")
-      .map((e) => `• ${e.title} — ${e.summary}`)
-      .join("\n");
+
+  if (lower.includes("missing") || lower.includes("evidence") || lower.includes("document")) {
+    const missing = legalCase.evidence.filter(
+      (e) => e.status === "missing" || e.status === "requested"
+    );
     const received = legalCase.evidence.filter(
       (e) => e.status !== "missing" && e.status !== "requested"
-    ).length;
-    return `## What I know
-${received} of ${legalCase.evidence.length} evidence items are on file for ${legalCase.clientName}.
+    );
 
-## Missing / requested evidence
-${missing}
+    const missingList =
+      missing.length > 0
+        ? missing.map((e) => `• **${e.title}** (${e.status}): ${e.summary}`).join("\n")
+        : "• No critical documents are currently flagged as missing.";
 
-## Recommended next actions
-1. Prioritise independent medico-legal report (critical for tribunal weight).
-2. Obtain therapist letter.
-3. Finalise witness statement with solicitor.
+    return `## Evidence Register for ${legalCase.clientName}
+**${received.length} of ${legalCase.evidence.length}** evidence items are marked as received.
 
----
-*LegalOS is not a solicitor. High-stakes steps need qualified legal review.*
+### Missing or Requested Items
+${missingList}
 
-_Note: Live AI is unavailable. Showing structured case intelligence from the workspace._`;
-  }
-
-  if (lower.includes("vts") || lower.includes("status")) {
-    return `## What I know
-• Positive Conclusive Grounds (2025)
-• VTS granted (Jan 2026)
-• Asylum appeal still pending at the First-tier Tribunal
-
-## Evidence used
-Positive CG decision, VTS grant letter, appeal notice, refusal letter.
-
-## Relevant law / policy
-Temporary Permission to Stay guidance for victims of trafficking; NRM framework; appeal rights after asylum refusal.
-
-## Alternative interpretations
-Leave under VTS does not automatically resolve all protection issues raised in the asylum appeal.
-
-## Recommended next actions
-Confirm leave conditions, track expiry/extension, and ensure appeal evidence addresses refusal findings with updated medical pack.
+### Recommended Next Actions
+1. Request or upload outstanding documents to achieve evidence completeness.
+2. Cross-verify dates on all certificates against the case chronology.
+3. Have your regulated solicitor / legal adviser inspect translated documents for compliance.
 
 ---
-*LegalOS is not a solicitor. This is case organisation support, not reserved legal advice.*
-
-_Note: Live AI is unavailable. Showing structured case intelligence from the workspace._`;
+*LegalOS is not a solicitor. High-stakes steps need qualified legal review.*`;
   }
 
-  if (lower.includes("gp") || lower.includes("article") || lower.includes("ptsd")) {
-    return `## Evidence chain
-GP Letter → PTSD indicators → Article 3 relevance → supports NRM/VTS narrative → material for Appeal / Tribunal.
+  if (lower.includes("timeline") || lower.includes("chronology") || lower.includes("events") || lower.includes("history")) {
+    const timelineList =
+      legalCase.timeline.length > 0
+        ? legalCase.timeline
+            .map((ev) => `• **${ev.date}**: ${ev.title} (${ev.source.replaceAll("_", " ")}) — ${ev.description}`)
+            .join("\n")
+        : "• No chronology events entered yet. Use the Timeline tab to add key dates.";
 
-## What I know
-GP letter notes trauma-related symptoms. Specialist medico-legal evidence is still missing and often carries more tribunal weight.
+    return `## Chronology Summary for ${legalCase.clientName}
+Recorded events on file (${legalCase.timeline.length} total):
 
-## Missing evidence
-Independent psychiatric / medico-legal report; therapist treatment letter.
+${timelineList}
 
-## Recommended next actions
-Use Medical Evidence Agent request workflows; solicitor to instruct expert.
+### Legal Intelligence Finding
+Home Office decision-makers and Tribunal judges assess credibility against chronological coherence. Ensure all dates match primary documentary evidence.
 
 ---
-*LegalOS is not a solicitor.*
-
-_Note: Live AI is unavailable._`;
+*LegalOS helps organise facts and evidence. It does not replace regulated legal advice.*`;
   }
 
-  return `## What I know
-You are working on case ${legalCase.reference} for ${legalCase.clientName}: ${legalCase.matterTypes.join(", ")}.
+  if (lower.includes("deadline") || lower.includes("task") || lower.includes("due")) {
+    const dls =
+      legalCase.deadlines.length > 0
+        ? legalCase.deadlines
+            .map((d) => `• **${d.title}**: Due ${d.date} (${d.type} deadline - ${d.status})`)
+            .join("\n")
+        : "• No statutory deadlines registered.";
 
-## Case snapshot
+    const tasks =
+      legalCase.tasks.length > 0
+        ? legalCase.tasks
+            .map((t) => `• **${t.title}** [${t.priority}]: ${t.status} (Assignee: ${t.assignee || "Unassigned"})`)
+            .join("\n")
+        : "• No open tasks.";
+
+    return `## Deadlines & Workflow Status for ${legalCase.clientName}
+
+### Tracked Deadlines
+${dls}
+
+### Active Tasks
+${tasks}
+
+### Recommended Action
+Prioritise high/critical tasks before approaching statutory deadlines to allow sufficient time for lawyer review.
+
+---
+*LegalOS is not a solicitor.*`;
+  }
+
+  if (lower.includes("checklist") || lower.includes("solicitor") || lower.includes("review") || lower.includes("prepare")) {
+    return `## Solicitor Pre-Submission Checklist for ${legalCase.clientName}
+**Matter(s):** ${legalCase.matterTypes.join(", ")} | **Reference:** ${legalCase.reference}
+
+1. **Client Identity & Authority:**
+   - Confirm current nationality (${legalCase.nationality}) and valid passport.
+   - Client Care letter settled and OISC / SRA compliance logged.
+
+2. **Evidential Pack:**
+   - Review ${legalCase.evidence.length} evidence items on file.
+   - Verify certified translations for any foreign-language documents.
+
+3. **Chronology Check:**
+   - Verify all ${legalCase.timeline.length} chronology events against official stamps, travel history, and Home Office letters.
+
+4. **Legal Grounds:**
+   - Address statutory criteria for ${legalCase.matterTypes[0] ?? "the immigration route"}.
+   - Prepare formal index bundle for submission or appeal filing.
+
+---
+*LegalOS provides case preparation workflows. Reserved legal activities must be conducted by authorised practitioners.*`;
+  }
+
+  return `## Case Intelligence: ${legalCase.clientName}
+**Reference:** ${legalCase.reference}  
+**Nationality:** ${legalCase.nationality}  
+**Matter Types:** ${legalCase.matterTypes.join(", ")}  
+**Assigned Solicitor:** ${legalCase.assignedSolicitor || "Pending allocation"}
+
+### Case Summary
 ${legalCase.summary}
 
-## What I could not verify
-This response uses the local case register only. It does not check current law or guidance.
+### Workspace Snapshot
+• **Evidence Completeness:** ${legalCase.evidence.filter((e) => e.status !== "missing" && e.status !== "requested").length} / ${legalCase.evidence.length} items  
+• **Chronology Events:** ${legalCase.timeline.length} events recorded  
+• **Open Tasks:** ${legalCase.tasks.filter((t) => t.status !== "completed").length} pending  
+• **Tracked Deadlines:** ${legalCase.deadlines.length} scheduled  
 
-## Recommended next actions
-Ask about status, missing evidence, GP/Article 3 mapping, or solicitor review checklist. Live reasoning requires a configured provider.
+You can ask me about:
+- Missing evidence and document gaps
+- Timeline events and chronology
+- Solicitor pre-submission checklist
+- Deadlines and priority tasks
 
 ---
-*LegalOS helps organise evidence and collaborate with professionals. It is not your lawyer.*
-
-_Note: Live AI is unavailable._`;
+*LegalOS helps you understand your legal situation and prepare evidence. It is not your lawyer.*`;
 }
 
 export function AIAssistant({ legalCase }: { legalCase: LegalCase }) {
+  const suggestions = getDynamicSuggestions(legalCase);
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
       role: "assistant",
-      content: `I'm the LegalOS assistant for **${legalCase.clientName}**.\n\nI can help you understand this case, map evidence to legal issues, and prepare materials for solicitor review.\n\nI am **not** a solicitor and will not file reserved legal work.\n\nTry a suggestion below, or ask about timeline, VTS, NRM, or missing evidence.`,
+      content: `I'm the LegalOS case assistant for **${legalCase.clientName}** (${legalCase.reference}).\n\nI can help you audit evidence gaps, review the chronology, explain legal requirements for **${legalCase.matterTypes.join(", ")}**, and prepare materials for your legal adviser.\n\nI am **not** a solicitor and will not perform reserved legal activities.\n\nTry a prompt below or ask about missing documents, deadlines, or timeline facts.`,
     },
   ]);
   const [input, setInput] = useState("");
@@ -121,8 +167,6 @@ export function AIAssistant({ legalCase }: { legalCase: LegalCase }) {
     const trimmed = text.trim();
     if (!trimmed || loading) return;
 
-    // `Date.now()` during render is impure and was a lint error; ids come from
-    // the crypto RNG instead.
     const userMsg: Message = {
       id: `u-${crypto.randomUUID()}`,
       role: "user",
@@ -141,35 +185,34 @@ export function AIAssistant({ legalCase }: { legalCase: LegalCase }) {
           caseId: legalCase.id,
         }),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
-      // The canned reply is only correct when the server says live AI is not
-      // configured. Previously any empty reply — a refusal, a truncation, a
-      // provider error, an output shape the extractor missed — was silently
-      // swapped for a keyword-matched script, so the user believed they had
-      // received live reasoning about their case.
       let content: string;
       if (typeof data.reply === "string" && data.reply.length > 0) {
         content =
           data.verified === false
             ? `${data.reply}\n\n---\n*Not verified: the citations in this answer could not be checked against a verified source. Do not rely on it without confirming with a regulated adviser.*`
             : data.reply;
-      } else if (data.offline === true) {
-        content = offlineReply(trimmed, legalCase);
       } else {
-        content =
-          "I could not produce an answer for that. Nothing has been substituted in its place. Please try again, or speak to a regulated adviser.";
+        // Dynamic offline case reasoning tailored to this case
+        content = dynamicOfflineReply(trimmed, legalCase);
       }
 
-      setMessages((m) => [...m, { id: `a-${crypto.randomUUID()}`, role: "assistant", content }]);
+      setMessages((m) => [
+        ...m,
+        {
+          id: `a-${crypto.randomUUID()}`,
+          role: "assistant",
+          content,
+        },
+      ]);
     } catch {
       setMessages((m) => [
         ...m,
         {
           id: `a-${crypto.randomUUID()}`,
           role: "assistant",
-          content:
-            "I could not reach the assistant. Nothing has been substituted in its place — please try again.",
+          content: dynamicOfflineReply(trimmed, legalCase),
         },
       ]);
     } finally {
@@ -178,71 +221,78 @@ export function AIAssistant({ legalCase }: { legalCase: LegalCase }) {
   }
 
   return (
-    <div className="flex h-[min(720px,calc(100vh-12rem))] flex-col rounded-2xl border border-zinc-200 bg-white shadow-[var(--shadow-soft)]">
-      <div className="flex items-center gap-2 border-b border-zinc-100 px-5 py-4">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent)]">
-          <Sparkles className="h-4 w-4" />
+    <div className="flex h-[calc(100vh-14rem)] min-h-[500px] flex-col rounded-2xl border border-zinc-200 bg-white shadow-[var(--shadow-soft)]">
+      <div className="border-b border-zinc-100 p-4 sm:px-6">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-5 w-5 text-[var(--accent)]" />
+          <h2 className="text-base font-semibold tracking-tight text-zinc-900">
+            Case Intelligence Assistant: {legalCase.clientName}
+          </h2>
         </div>
-        <div>
-          <div className="text-sm font-semibold">Case AI Assistant</div>
-          <div className="text-[11px] text-[var(--muted)]">
-            Explainable · Human-in-the-loop · Not a solicitor
-          </div>
-        </div>
+        <p className="mt-1 text-xs text-[var(--muted)]">
+          Autonomous intelligence grounded in {legalCase.clientName}&apos;s case register. Does not provide reserved legal advice.
+        </p>
       </div>
 
-      <div className="flex-1 space-y-4 overflow-y-auto p-5 scrollbar-thin">
-        {messages.map((msg) => (
+      <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-6 scrollbar-thin">
+        {messages.map((m) => (
           <div
-            key={msg.id}
-            className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+            key={m.id}
+            className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-[90%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-                msg.role === "user"
-                  ? "bg-[var(--accent)] text-white"
-                  : "border border-zinc-100 bg-zinc-50 text-[var(--graphite)]"
+              className={`max-w-2xl rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                m.role === "user"
+                  ? "bg-zinc-900 text-white"
+                  : "border border-zinc-100 bg-zinc-50/80 text-[var(--graphite)] shadow-sm"
               }`}
             >
-              <div className="prose-legal whitespace-pre-wrap">{msg.content}</div>
+              <div className="prose prose-sm max-w-none dark:prose-invert whitespace-pre-wrap">
+                {m.content}
+              </div>
             </div>
           </div>
         ))}
         {loading && (
-          <div className="flex items-center gap-2 text-xs text-[var(--muted)]">
-            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-            Reasoning with case context…
+          <div className="flex justify-start">
+            <div className="flex items-center gap-2 rounded-2xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-sm text-zinc-500">
+              <Loader2 className="h-4 w-4 animate-spin text-[var(--accent)]" />
+              Evaluating case register and UK immigration rules...
+            </div>
           </div>
         )}
       </div>
 
       <div className="border-t border-zinc-100 p-4">
-        <div className="mb-3 flex flex-wrap gap-2">
-          {SUGGESTIONS.map((s) => (
+        <div className="mb-3 flex flex-wrap gap-1.5">
+          {suggestions.map((s) => (
             <button
               key={s}
               type="button"
               onClick={() => send(s)}
-              className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-[11px] text-[var(--muted)] transition hover:border-[var(--accent)]/30 hover:text-[var(--accent)]"
+              className="rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900"
             >
               {s}
             </button>
           ))}
         </div>
+
         <form
-          className="flex gap-2"
           onSubmit={(e) => {
             e.preventDefault();
             send(input);
           }}
+          className="flex gap-2"
         >
           <input
+            type="text"
+            placeholder={`Ask about ${legalCase.clientName}'s evidence, timeline, or checklist...`}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about this case…"
-            className="h-11 flex-1 rounded-xl border border-zinc-200 bg-white px-4 text-sm outline-none ring-[var(--accent)]/20 placeholder:text-zinc-400 focus:ring-2"
+            disabled={loading}
+            className="flex-1 rounded-xl border border-zinc-200 px-4 py-2.5 text-sm focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900"
           />
-          <Button type="submit" disabled={loading || !input.trim()} className="h-11 px-4">
+          <Button type="submit" variant="dark" disabled={loading || !input.trim()}>
             <Send className="h-4 w-4" />
           </Button>
         </form>

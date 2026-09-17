@@ -1,13 +1,12 @@
-import Link from "next/link";
 import { SiteHeader } from "@/components/layout/site-header";
 import { PageBackdrop } from "@/components/layout/page-backdrop";
-import { Button } from "@/components/ui/button";
 import { VideoMedia } from "@/components/ui/video-media";
 import { DEMO_CASES } from "@/lib/data/sapana-case";
 import { PLACEMENT } from "@/lib/media/videos";
+import { WorkspaceCaseList } from "@/components/workspace/workspace-case-list";
 
 export const metadata = {
-  title: "Workspace",
+  title: "Workspace & Cases",
 };
 
 const personas = [
@@ -30,8 +29,6 @@ const personas = [
 ];
 
 export default function WorkspacePage() {
-  const demo = DEMO_CASES[0];
-
   return (
     <>
       <SiteHeader />
@@ -45,51 +42,13 @@ export default function WorkspacePage() {
               Cases, agents, and human review
             </h1>
             <p className="mt-5 text-[16px] leading-relaxed text-[var(--muted)]">
-              Open the Sabinah demo to explore timeline intelligence, evidence orchestration,
-              multi-agent analysis, and solicitor approval gates.
+              Create and manage active immigration cases or explore the demonstration matter with timeline intelligence,
+              evidence orchestration, multi-agent analysis, and solicitor approval gates.
             </p>
           </div>
 
-          <div className="mt-12 grid overflow-hidden rounded-sm border border-[var(--line)] bg-white lg:grid-cols-12">
-            <div className="relative min-h-[260px] lg:col-span-5 lg:min-h-[360px]">
-              <VideoMedia
-                src={PLACEMENT.workspaceMain.src}
-                poster={PLACEMENT.workspaceMain.poster}
-                className="absolute inset-0 h-full w-full rounded-none"
-                label={PLACEMENT.workspaceMain.label}
-                veil="soft"
-              />
-            </div>
-            <div className="flex flex-col justify-between gap-8 p-8 lg:col-span-7 lg:p-10">
-              <div>
-                <p className="eyebrow">Demo case</p>
-                <h2 className="display mt-3 text-[2rem] tracking-tight">{demo.clientName}</h2>
-                <p className="mt-1 font-mono text-[12px] text-[var(--muted)]">
-                  {demo.reference} · @sabinahmamood
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {demo.matterTypes.map((m) => (
-                    <span
-                      key={m}
-                      className="border border-[var(--line-strong)] px-2.5 py-1 text-[12px] text-[var(--ink-soft)]"
-                    >
-                      {m}
-                    </span>
-                  ))}
-                </div>
-                <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[var(--muted)]">
-                  {demo.summary}
-                </p>
-              </div>
-              <div>
-                <Link href={`/workspace/cases/${demo.id}`}>
-                  <Button size="lg" variant="dark">
-                    Open Mission Control
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
+          {/* Interactive Case Management List */}
+          <WorkspaceCaseList defaultCases={DEMO_CASES} />
 
           <div className="mt-16 grid gap-6 lg:grid-cols-2">
             <VideoMedia
