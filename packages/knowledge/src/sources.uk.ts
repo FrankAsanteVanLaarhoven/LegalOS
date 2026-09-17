@@ -76,4 +76,16 @@ export const UK_SOURCES: readonly LegalSource[] = [
     checksum: null,
     verificationStatus: "unverified",
   },
+  {
+    id: "uk.regulatory.oisc-code-of-standards",
+    kind: "home_office_guidance",
+    title: "OISC / IAA Code of Standards and Commissioner's Rules",
+    citation: "The Code of Standards and The Commissioner's Rules (Immigration and Asylum Act 1999, Sch. 5)",
+    publisher: "Immigration Advice Authority / OISC (GOV.UK)",
+    url: "https://www.gov.uk/government/publications/oisc-code-of-standards-commissioners-rules-2012",
+    version: "2024-09-01",
+    retrievedAt: null,
+    checksum: null,
+    verificationStatus: "unverified",
+  },
 ] as const;

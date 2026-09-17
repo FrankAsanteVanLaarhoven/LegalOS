@@ -220,6 +220,15 @@ export const UK_LEGAL_RESOURCES: LegalResource[] = [
     category: "guidance",
   },
   {
+    id: "oisc-code-of-standards",
+    title: "OISC / IAA Code of Standards & Commissioner's Rules",
+    description:
+      "Statutory standards of conduct and Commissioner's rules for regulated immigration advisers in the UK (Immigration and Asylum Act 1999).",
+    url: "https://www.gov.uk/government/publications/oisc-code-of-standards-commissioners-rules-2012",
+    publisher: "GOV.UK / Immigration Advice Authority",
+    category: "guidance",
+  },
+  {
     id: "sra",
     title: "Solicitors Regulation Authority",
     description: "Check a solicitor or firm is regulated in England and Wales.",

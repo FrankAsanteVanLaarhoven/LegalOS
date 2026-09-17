@@ -197,10 +197,10 @@ Stated here rather than discovered later.
 ## Documentation
 
 | Document                                               | Contents                                         |
-| ------------------------------------------------------ | ------------------------------------------------ |
 | [`PRINCIPLES.md`](PRINCIPLES.md)                       | The principles, and the code enforcing them      |
 | [`docs/INVARIANTS.md`](docs/INVARIANTS.md)             | The registry, its outcomes, falsification        |
 | [`docs/OPERATOR_RUNBOOK.md`](docs/OPERATOR_RUNBOOK.md) | Deployment prerequisites and the evidence matrix |
+| [`docs/OISC_CODE_OF_STANDARDS.md`](docs/OISC_CODE_OF_STANDARDS.md) | OISC/IAA regulatory standards & conduct rules |
 | [`docs/adr/`](docs/adr/)                               | Architecture decisions                           |
 | [`PROGRAMME_PHASES.md`](PROGRAMME_PHASES.md)           | Delivery phases                                  |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)         | Component architecture                           |
