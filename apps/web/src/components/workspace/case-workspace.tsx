@@ -14,6 +14,8 @@ import { AIAssistant } from "./ai-assistant";
 import { CaseTimelinePanel } from "./case-timeline-panel";
 import { CaseStoreProvider, useCaseStore } from "./case-store-context";
 
+import { SessionAuditPanel } from "./session-audit-panel";
+
 function CaseWorkspaceInner({
   agentBadges = {},
   auditSlot,
@@ -40,7 +42,9 @@ function CaseWorkspaceInner({
           {tab === "deadlines" && <DeadlinesPanel legalCase={legalCase} />}
           {tab === "review" && <ReviewPanel legalCase={legalCase} />}
           {tab === "documents" && <DocumentsPanel legalCase={legalCase} />}
-          {tab === "audit" && auditSlot}
+          {tab === "audit" && (
+            <SessionAuditPanel legalCase={legalCase} serverAuditSlot={auditSlot} />
+          )}
         </main>
       </div>
     </div>

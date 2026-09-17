@@ -100,18 +100,24 @@ export function OverviewPanel({
             <CardTitle>Evidence gaps</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            {missingEvidence.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-start justify-between gap-3 rounded-xl border border-zinc-100 px-3 py-2.5"
-              >
-                <div>
-                  <div className="text-sm font-medium">{item.title}</div>
-                  <div className="mt-0.5 text-xs text-[var(--muted)]">{item.summary}</div>
+            {missingEvidence.length === 0 ? (
+              <p className="py-3 text-xs text-zinc-500">
+                All registered documents are marked as received. No active evidence gaps.
+              </p>
+            ) : (
+              missingEvidence.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-start justify-between gap-3 rounded-xl border border-zinc-100 px-3 py-2.5"
+                >
+                  <div>
+                    <div className="text-sm font-medium">{item.title}</div>
+                    <div className="mt-0.5 text-xs text-[var(--muted)]">{item.summary}</div>
+                  </div>
+                  <Badge tone={item.status === "missing" ? "danger" : "warning"}>{item.status}</Badge>
                 </div>
-                <Badge tone={item.status === "missing" ? "danger" : "warning"}>{item.status}</Badge>
-              </div>
-            ))}
+              ))
+            )}
           </CardContent>
         </Card>
       </div>
@@ -121,21 +127,27 @@ export function OverviewPanel({
           <CardTitle>Next deadlines</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
-          {legalCase.deadlines.map((d) => (
-            <div
-              key={d.id}
-              className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-zinc-100 px-3 py-2.5"
-            >
-              <div>
-                <div className="text-sm font-medium">{d.title}</div>
-                {d.notes && <div className="text-xs text-[var(--muted)]">{d.notes}</div>}
+          {legalCase.deadlines.length === 0 ? (
+            <p className="py-3 text-xs text-zinc-500">
+              No statutory or tribunal filing deadlines currently scheduled.
+            </p>
+          ) : (
+            legalCase.deadlines.map((d) => (
+              <div
+                key={d.id}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-zinc-100 px-3 py-2.5"
+              >
+                <div>
+                  <div className="text-sm font-medium">{d.title}</div>
+                  {d.notes && <div className="text-xs text-[var(--muted)]">{d.notes}</div>}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge tone="neutral">{d.type}</Badge>
+                  <span className="text-sm font-medium tabular-nums">{formatDate(d.date)}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Badge tone="neutral">{d.type}</Badge>
-                <span className="text-sm font-medium tabular-nums">{formatDate(d.date)}</span>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </CardContent>
       </Card>
     </div>

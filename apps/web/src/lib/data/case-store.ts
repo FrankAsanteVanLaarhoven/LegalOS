@@ -8,7 +8,7 @@ import type {
   LegalCitation,
   TimelineEvent,
 } from "@/lib/types";
-import { SAPANA_CASE } from "./sapana-case";
+import { SAPANA_CASE } from "./sapana-case.ts";
 
 const STORAGE_KEY = "legalos_cases_v2";
 

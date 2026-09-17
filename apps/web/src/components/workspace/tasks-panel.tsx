@@ -446,44 +446,186 @@ export function ReviewPanel({ legalCase }: { legalCase: LegalCase }) {
 }
 
 export function DocumentsPanel({ legalCase }: { legalCase: LegalCase }) {
+  const [showBundleModal, setShowBundleModal] = useState(false);
+  const [showStatementModal, setShowStatementModal] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const statementText = `STATEMENT OF WITNESS
+
+IN THE FIRST-TIER TRIBUNAL (IMMIGRATION AND ASYLUM CHAMBER) / UKVI
+Case Reference: ${legalCase.reference}
+
+I, ${legalCase.clientName}, a citizen of ${legalCase.nationality}, residing in the United Kingdom, state as follows:
+
+1. I make this statement in support of my immigration matter regarding ${legalCase.matterTypes.join(", ")}.
+
+2. Background & Summary:
+${legalCase.summary}
+
+3. Chronology of Relevant Events:
+${legalCase.timeline.map((ev, i) => `   3.${i + 1}. On ${ev.date}: ${ev.title}. ${ev.description} (Provenance: ${ev.source.replaceAll("_", " ")}).`).join("\n")}
+
+4. Supporting Evidence:
+I have provided ${legalCase.evidence.length} supporting exhibits to my legal representatives, including ${legalCase.evidence.slice(0, 3).map((e) => e.title).join(", ")}.
+
+STATEMENT OF TRUTH
+I believe that the facts stated in this witness statement are true.
+
+Signed: ___________________________
+${legalCase.clientName}
+Dated: ${new Date().toISOString().slice(0, 10)}`;
+
+  const handleCopyStatement = () => {
+    navigator.clipboard.writeText(statementText);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-[var(--shadow-soft)] sm:p-6">
-      <h2 className="text-lg font-semibold tracking-tight">Case Documents & Bundles</h2>
-      <p className="mt-1 text-sm text-[var(--muted)]">
-        Indexed bundles, draft witness statements, and Home Office application packs prepared for {legalCase.clientName}.
-      </p>
+    <>
+      <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-[var(--shadow-soft)] sm:p-6">
+        <h2 className="text-lg font-semibold tracking-tight">Case Documents & Bundles</h2>
+        <p className="mt-1 text-sm text-[var(--muted)]">
+          Indexed bundles, draft witness statements, and Home Office application packs prepared for {legalCase.clientName}.
+        </p>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        <div className="rounded-2xl border border-zinc-100 bg-zinc-50/50 p-4">
-          <div className="flex items-center gap-2">
-            <Shield className="h-4 w-4 text-[var(--accent)]" />
-            <div className="text-sm font-semibold">Evidence Bundle Draft</div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="flex flex-col justify-between rounded-2xl border border-zinc-100 bg-zinc-50/50 p-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-[var(--accent)]" />
+                <div className="text-sm font-semibold text-zinc-900">Evidence Bundle Draft</div>
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-[var(--muted)]">
+                Auto-indexed PDF bundle paginated with chronology, ${legalCase.timeline.length} events, and ${legalCase.evidence.length} evidence register exhibits.
+              </p>
+            </div>
+            <div className="mt-4 flex gap-2">
+              <Button size="sm" variant="secondary" onClick={() => setShowBundleModal(true)}>
+                Preview & Export Bundle
+              </Button>
+            </div>
           </div>
-          <p className="mt-2 text-xs leading-relaxed text-[var(--muted)]">
-            Auto-indexed PDF bundle paginated with chronology and evidence register exhibits.
-          </p>
-          <div className="mt-4 flex gap-2">
-            <Button size="sm" variant="secondary" onClick={() => alert("Generating indexed bundle for " + legalCase.clientName)}>
-              Export Bundle (PDF)
-            </Button>
-          </div>
-        </div>
 
-        <div className="rounded-2xl border border-zinc-100 bg-zinc-50/50 p-4">
-          <div className="flex items-center gap-2">
-            <CheckSquare className="h-4 w-4 text-emerald-600" />
-            <div className="text-sm font-semibold">Witness Statement Draft</div>
-          </div>
-          <p className="mt-2 text-xs leading-relaxed text-[var(--muted)]">
-            Chronological statement assembled from client recollections and supporting exhibits.
-          </p>
-          <div className="mt-4 flex gap-2">
-            <Button size="sm" variant="secondary" onClick={() => alert("Drafting witness statement for " + legalCase.clientName)}>
-              View Draft Statement
-            </Button>
+          <div className="flex flex-col justify-between rounded-2xl border border-zinc-100 bg-zinc-50/50 p-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <CheckSquare className="h-4 w-4 text-emerald-600" />
+                <div className="text-sm font-semibold text-zinc-900">Witness Statement Draft</div>
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-[var(--muted)]">
+                Chronological statement automatically assembled from {legalCase.clientName}&apos;s verified timeline facts and exhibits.
+              </p>
+            </div>
+            <div className="mt-4 flex gap-2">
+              <Button size="sm" variant="secondary" onClick={() => setShowStatementModal(true)}>
+                View Draft Statement
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Bundle Modal */}
+      {showBundleModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-6 shadow-2xl scrollbar-thin">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
+              <div>
+                <span className="font-mono text-xs text-zinc-400">{legalCase.reference}</span>
+                <h3 className="text-base font-semibold text-zinc-900">Compiled Evidence Bundle</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowBundleModal(false)}
+                className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mt-4 space-y-4 text-xs font-mono text-zinc-700 bg-zinc-50 p-4 rounded-xl border border-zinc-200">
+              <div className="text-center font-bold text-sm text-zinc-900 border-b border-zinc-200 pb-2">
+                LEGAL PROCEEDINGS / UKVI APPLICATION BUNDLE
+                <div className="text-xs font-normal text-zinc-500 mt-0.5">
+                  Matter: {legalCase.matterTypes.join(" | ")}
+                </div>
+              </div>
+
+              <div>
+                <strong>Applicant:</strong> {legalCase.clientName} ({legalCase.nationality})<br />
+                <strong>Representative:</strong> {legalCase.assignedSolicitor || "Private Representation"}<br />
+                <strong>Date Compiled:</strong> {new Date().toISOString().slice(0, 10)}
+              </div>
+
+              <div className="border-t border-zinc-200 pt-2">
+                <div className="font-bold text-zinc-900 mb-1">TABLE OF CONTENTS</div>
+                <div>Section A: Chronological Narrative & Facts ......... A1 - A{Math.max(1, legalCase.timeline.length)}</div>
+                <div>Section B: Documentary Evidence Register ........... B1 - B{Math.max(1, legalCase.evidence.length)}</div>
+                <div>Section C: Regulatory & Statutory Submissions ...... C1 - C4</div>
+              </div>
+
+              <div className="border-t border-zinc-200 pt-2">
+                <div className="font-bold text-zinc-900 mb-1">SECTION B: EXHIBITS REGISTER</div>
+                {legalCase.evidence.map((e, i) => (
+                  <div key={e.id} className="flex justify-between py-0.5 border-b border-zinc-100">
+                    <span>Exhibit B{i + 1}: {e.title} ({e.status})</span>
+                    <span className="text-zinc-400">p. {i * 2 + 1}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-4 flex justify-end gap-2 border-t border-zinc-100 pt-3">
+              <Button type="button" variant="secondary" onClick={() => setShowBundleModal(false)}>
+                Close
+              </Button>
+              <Button type="button" variant="dark" onClick={() => window.print()}>
+                Print / Save Bundle PDF
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Witness Statement Modal */}
+      {showStatementModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-6 shadow-2xl scrollbar-thin">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
+              <div>
+                <span className="font-mono text-xs text-zinc-400">{legalCase.reference}</span>
+                <h3 className="text-base font-semibold text-zinc-900">Draft Witness Statement</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowStatementModal(false)}
+                className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <pre className="mt-4 whitespace-pre-wrap rounded-xl border border-zinc-200 bg-zinc-50 p-4 font-serif text-xs leading-relaxed text-zinc-800 max-h-[55vh] overflow-y-auto">
+              {statementText}
+            </pre>
+
+            <div className="mt-4 flex justify-between items-center border-t border-zinc-100 pt-3">
+              <span className="text-[11px] text-zinc-500">
+                Requires solicitor review and formal signing before submission.
+              </span>
+              <div className="flex gap-2">
+                <Button type="button" variant="secondary" onClick={() => setShowStatementModal(false)}>
+                  Close
+                </Button>
+                <Button type="button" variant="dark" onClick={handleCopyStatement}>
+                  {copied ? "Copied to Clipboard!" : "Copy Statement"}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
