@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 /**
@@ -5,18 +6,22 @@ import type { NextConfig } from "next";
  * so Next has to compile them rather than treat them as prebuilt dependencies.
  */
 const WORKSPACE_PACKAGES = [
+  "@legalos/agentos",
   "@legalos/auth",
+  "@legalos/bench",
   "@legalos/capabilities",
+  "@legalos/database",
+  "@legalos/execution",
+  "@legalos/fiduciary",
+  "@legalos/governance",
+  "@legalos/invariants",
   "@legalos/knowledge",
   "@legalos/policy",
   "@legalos/ratelimit",
+  "@legalos/reliability",
+  "@legalos/repositories",
   "@legalos/rules",
   "@legalos/verification",
-  "@legalos/reliability",
-  "@legalos/governance",
-  "@legalos/fiduciary",
-  "@legalos/bench",
-  "@legalos/database",
 ];
 
 /**
@@ -88,9 +93,14 @@ const securityHeaders = [
  */
 const distDir = process.env.NEXT_DIST_DIR ?? ".next";
 
+const repoRoot = process.cwd().endsWith("apps/web")
+  ? path.resolve(process.cwd(), "../..")
+  : process.cwd();
+
 const nextConfig: NextConfig = {
   distDir,
   transpilePackages: WORKSPACE_PACKAGES,
+  outputFileTracingRoot: repoRoot,
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
