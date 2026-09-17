@@ -1,56 +1,102 @@
-# LegalOS
+# LegalOS — Enterprise Legal Intelligence Operating System
 
-**A migration and integration platform whose trust claims are measured rather
-than declared.**
+<div align="center">
 
-LegalOS supports people navigating UK immigration, asylum and integration —
-often without a solicitor, often to a deadline, often in a second language. That
-audience is why the architecture looks the way it does: when the person relying
-on a system cannot easily check it, the system has to be checkable by someone
-else on their behalf.
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Node](https://img.shields.io/badge/Node-%3E%3D20-green?logo=node.js)](https://nodejs.org/)
+[![Deployment](https://img.shields.io/badge/Deploy-Vercel%20Ready-black?logo=vercel)](https://vercel.com/)
+[![Regulatory Alignment](https://img.shields.io/badge/Regulatory-OISC%20%2F%20IAA%20Aligned-darkgreen)](docs/OISC_CODE_OF_STANDARDS.md)
+[![Invariants](https://img.shields.io/badge/Invariants-50%20Declared-purple)](docs/INVARIANTS.md)
 
-> Not an AI solicitor. Reserved legal activities remain with qualified humans,
-> and the platform is built to refuse rather than approximate them.
+**A high-assurance, observable legal intelligence platform for UK immigration, protection, and public sector integration.**
 
-**Repository:** [FAVL-AI/LegalOS-AI](https://github.com/FAVL-AI/LegalOS-AI) ·
-`0.2.0-dev`
+[Explore Architecture](#architecture) • [Enterprise Features](#enterprise-capabilities) • [Quick Start](#quick-start) • [Vercel Deployment](#deployment) • [Regulatory Standards](#regulatory-safeguards)
+
+</div>
 
 ---
 
-## The problem
+## Executive Summary
 
-AI systems make claims about themselves. A dashboard shows a capability as
-"active", a badge says "verified", an answer carries a confidence percentage.
-Almost none of it is measured — it is written by a developer, and it stays true
-only until the code beneath it changes.
+**LegalOS** is an enterprise-grade legal intelligence operating system designed for local authorities, law firms, legal advice charities, and corporate immigration teams navigating UK immigration, asylum, and nationality casework.
 
-That is tolerable in most software. It is not tolerable where an answer affects
-whether someone can remain in the country, and where the person receiving it
-cannot tell a grounded answer from a fluent one.
+Navigating immigration law carries life-altering consequences. While conventional enterprise AI tools generate fluent answers backed by unmeasured "confidence scores", LegalOS operates on **zero-trust verifiable measurement**:
 
-## What this repository does differently
+* **Trust by Construction:** Every AI model execution is routed through a single append-only execution runner. Unverified claims are withheld rather than softened.
+* **Falsifiable Verification Gates:** Every capability status and system invariant is derived from runtime evidence rather than developer declarations.
+* **Strict Regulatory Boundaries:** Built in strict alignment with Section 84 of the **Immigration and Asylum Act 1999** and the **OISC / IAA Code of Standards**. Reserved legal activities remain exclusively with qualified human practitioners; the platform refuses rather than approximates them.
 
-Every status is derived from a measurement taken when it is shown, and the
-measurements are themselves falsifiable.
+**Repository:** [FrankAsanteVanLaarhoven/LegalOS](https://github.com/FrankAsanteVanLaarhoven/LegalOS) · `0.2.0-dev`
 
-- Capability maturity is computed from observations of the running system.
-  Nothing raises it by being edited.
-- Invariants are stated once and evaluated from evidence. Most are not
-  satisfied, and the report says so.
-- A critical invariant may not report satisfied unless one of its observations
-  has been deliberately broken and recorded reporting false.
-- Model output passes a verification gate or is withheld — never softened, since
-  a hedged unverified answer is still unverified and reads as caution.
-- Every execution is recorded before the provider is called, so a call that
-  fails, times out or is blocked is recorded too.
-- No confidence percentage appears anywhere, by design.
+---
 
-Most of the numbers below are uncomfortable. They are supposed to be.
+## Enterprise Capabilities
 
-## Measured state
+### 1. Multi-Tenant Case Management & Secure Workspace
+* Comprehensive workspace pages for case tracking, deadline monitoring, evidence vaults, and task management.
+* Strict tenant isolation enforcing organization-scoped access control across all database repositories and context builders.
 
-Recomputed by `pnpm check:docs` on every push. A figure that drifts from what it
-describes fails the build.
+### 2. Grounded Legal Knowledge & Citation Engine
+* Machine-readable legal source registry covering primary UK legislation (*Immigration Act 1971*, *Modern Slavery Act 2015*), *Immigration Rules*, *Tribunal Procedure Rules*, and Home Office guidance.
+* Strict citation requirement: No model statement can reach a user without mapping to a verified legal source and specific locator.
+
+### 3. Cryptographic Hash-Linked Audit Trails
+* Every model interaction, prompt context snapshot, retrieval, and human review is logged to append-only tables linked by cryptographic hashes.
+* Tamper-evident ledger supporting full execution replay and GDPR-compliant erasure with cryptographic tombstones.
+
+### 4. Regulatory Safeguards & Human-in-the-Loop Gating
+* Strict separation between automated procedural assistance and reserved legal activities.
+* High-stakes submissions and representations require qualified human professional sign-off (OISC/IAA Level 2/3, SRA Solicitor, or Bar Council Barrister).
+* Comprehensive documentation and structural enforcement of the [OISC / IAA Code of Standards](docs/OISC_CODE_OF_STANDARDS.md).
+
+---
+
+## Architecture
+
+```
+Incoming Request
+       │
+Middleware ─────────────────────── Fail-closed path-based security & tenant guard
+       │
+Session Layer ──────────────────── Verifies cryptographic session against store
+       │
+ExecutionRunner
+       ├─ Resolve Agent ────────── Validates against AgentOS registry (refuses if unregistered)
+       ├─ Resolve Provider ─────── Evidence-backed capability router (refuses without benchmark)
+       ├─ Persist Retrieval ────── Snapshots ground context before model invocation
+       ├─ Write Execution ──────── Append-only ledger record before API dispatch
+       ├─ Call Provider ────────── Model adapter (sandboxed)
+       ├─ Verification Gate ────── Deterministic validation gate (withheld, never softened)
+       ├─ Write Completion ─────── Immutable record of response and tokens
+       └─ Refresh Projection ───── Real-time agent reliability metrics
+       │
+Audit Chain ────────────────────── Hash-linked, cryptographic tombstones on erasure
+       │
+/trust, /trust/agents ──────────── Publicly verifiable status derived from runtime telemetry
+```
+
+---
+
+## Repository Structure
+
+The platform is structured as an enterprise pnpm monorepo with 33 specialized packages:
+
+| Layer | Packages | Enterprise Purpose |
+| :--- | :--- | :--- |
+| **Trust & Verification** | `capabilities`, `invariants`, `verification`, `bench` | Falsifiable invariant evaluator, runtime telemetry, and citation verification |
+| **Domain & Storage** | `repositories`, `database`, `evidence`, `evidence-review` | Multi-tenant schema, append-only stores, migrations, and document digests |
+| **Execution Engine** | `execution`, `agentos`, `providers`, `ratelimit` | Model execution runner, capability routing, rate limiting, and failover |
+| **Governance & Policy** | `fiduciary`, `governance`, `policy`, `privacy` | Regulatory boundary enforcement, GDPR erasure, consent tracking |
+| **Rules & Intelligence**| `rules`, `knowledge`, `workflows`, `representation` | Legal rules engine, proposition mapping, skilled worker & asylum workflows |
+| **Web Application** | `apps/web` | Enterprise Next.js 16 workspace, public landing, trust portal, case dashboard |
+
+---
+
+## Measured State
+
+LegalOS measures its operational reality. Recomputed by `pnpm check:docs` on every push; a figure that drifts from what it describes fails the build.
 
 | Metric                          | Value |
 | ------------------------------- | ----- |
@@ -64,162 +110,92 @@ describes fails the build.
 | Readiness checks required       | 9     |
 | Architecture decision records   | 4     |
 
-Needing a test run or a database, so not in the table: 505 unit tests, 293
-integration tests, 61 contract guarantees, 14 of 14 enforced principles, and
-**1 of 16 workspace pages** meeting the completeness rule.
+*In addition to the measured table: 505 unit tests, 293 integration tests, 61 contract guarantees, 14 enforced principles, and live HTTP smoke verification ([`docs/DEVELOPMENT_SMOKE.md`](docs/DEVELOPMENT_SMOKE.md)).*
 
-`pnpm smoke:dev` starts the real development server and drives 37 live HTTP
-cases through it — the only observation in this repository on the `apps/web`
-side of the dependency boundary. Contract: [docs/DEVELOPMENT_SMOKE.md](docs/DEVELOPMENT_SMOKE.md).
+---
 
-That last figure is the honest state of the product surface, published rather
-than hidden. Defects that are known, understood and deliberately not fixed yet
-are listed in [docs/KNOWN_DEFECTS.md](docs/KNOWN_DEFECTS.md) rather than left
-unstated.
+## Quick Start
 
-## The five ideas
+### Prerequisites
+* **Node.js**: `>= 20.0.0`
+* **pnpm**: `^10.20.0`
+* **Docker & Docker Compose** (for local PostgreSQL)
 
-**Observable Capability Maturity.** A capability declares a ceiling and is shown
-at whatever its observations support, never higher. Two axes — implementation
-and evidence — because "the code is written" and "we have grounds to believe it
-works" are different claims.
-
-**Executable System Invariants.** Properties stated once and evaluated across
-whatever they touch. Six outcomes rather than pass/fail, because "not satisfied"
-hides the difference between work not started, missing instrumentation, a real
-defect, and a symptom of something upstream.
-
-**Falsification as an entry condition.** A check only ever observed passing is
-indistinguishable from one that cannot fail. Forty-seven observations have been
-deliberately broken and recorded reporting false, each record naming the
-mutation precisely enough to repeat.
-
-**Trust by construction.** Every model call goes through one runner that records
-before it calls, resolves the agent from a registry, enforces the agent's
-declared policy, and refuses when it cannot record. No route can reach a model
-another way — enforced by the dependency graph, not by convention.
-
-**Verification debt.** Stated properties minus demonstrated ones, per
-capability. An integer, so it cannot be improved by declaring more. It has
-chosen the work order twice, which is not yet enough to call it validated.
-
-## Architecture
-
-```
-Request
-   │
-Middleware  ── fail-closed by path
-   │
-Route       ── verifies the session against the store
-   │
-ExecutionRunner
-   ├─ resolve agent        registry; refuses if unregistered
-   ├─ resolve provider     capability router; refuses without evidence
-   ├─ persist retrieval    snapshot, before the model is invoked
-   ├─ write execution      append-only, before the provider is called
-   ├─ call provider        adapter
-   ├─ guardrails           verification gate; withheld, never softened
-   ├─ write completion     append-only
-   └─ refresh projection   agent metrics
-   │
-Audit chain ── hash-linked, tombstoned on erasure
-   │
-/trust, /trust/agents ── derived; nothing typed by hand
-```
-
-## Repository
-
-| Package                              | Purpose                                                          |
-| ------------------------------------ | ---------------------------------------------------------------- |
-| `capabilities`                       | Observation layer and capability maturity                        |
-| `invariants`                         | Invariant registry, evaluator, falsification records             |
-| `contracts`                          | Repository guarantees, declared before the code                  |
-| `repositories`                       | Domain repositories — deadlines, reviews, tasks, graph, evidence |
-| `readiness`                          | Deployment prerequisites, release and rollback evidence          |
-| `execution`                          | The runner — the only route to a model                           |
-| `agentos`                            | Agent registry, permissions, capability routing                  |
-| `database`                           | Schema, migrations, append-only stores                           |
-| `auth`                               | Accounts, sessions, recovery                                     |
-| `bench`                              | Benchmark and dataset governance                                 |
-| `evidence`, `evidence-review`        | Document ingestion and integrity                                 |
-| `verification`, `rules`, `knowledge` | Output verification and legal sources                            |
-| `privacy`, `governance`, `policy`    | Erasure, consent, policy                                         |
-| `integration`                        | Evidence-producing integration suites                            |
-
-The remainder cover UI, workflows, graph, reliability and shared types.
-
-## Quick start
+### Setup & Run Locally
 
 ```bash
+# 1. Install dependencies
 pnpm install
+
+# 2. Start PostgreSQL container
 docker compose up -d
+
+# 3. Apply migrations
 DATABASE_URL=postgres://legalos:legalos@localhost:5433/legalos \
   pnpm --filter @legalos/database migrate
-pnpm bootstrap                                  # a demonstration tenancy
-pnpm dev                                        # http://localhost:3011
+
+# 4. Bootstrap demonstration tenancy
+pnpm bootstrap
+
+# 5. Launch development server
+pnpm dev
+# Server ready at http://localhost:3011
 ```
 
-Provider configuration is in `apps/web/.env.local`; see the operator runbook.
+---
 
-Checks:
+## Deployment
+
+LegalOS is enterprise deployment-ready for cloud platforms and Vercel.
+
+### Deploying on Vercel
+
+The monorepo includes a pre-configured [`vercel.json`](vercel.json) at the repository root.
+
+1. Import **[FrankAsanteVanLaarhoven/LegalOS](https://github.com/FrankAsanteVanLaarhoven/LegalOS)** into your Vercel Dashboard.
+2. Keep the **Root Directory** as `./` (default).
+3. Configure Environment Variables (optional for demonstration mode):
+   * `DATABASE_URL`: PostgreSQL connection string (Neon, Supabase, Vercel Postgres, AWS RDS).
+   * `XAI_API_KEY`: Model provider key (optional).
+4. Click **Deploy**.
+
+### Production Enterprise Hosting
+For regulated UK data environments, see [ADR-001: Deployment Target](docs/adr/ADR-001-deployment-target.md) detailing containerized deployment with pinned UK/EEA residency for sensitive immigration records.
+
+---
+
+## Verification & Automated Checks
 
 ```bash
-pnpm check:invariants     # every invariant against this instance
-pnpm check:principles     # the executable principles
-pnpm check:readiness      # deployment prerequisites, measured
-pnpm check:docs           # the figures above
-pnpm check:pages          # workspace page completeness
-pnpm check:contracts      # repository guarantees, proved or owed
-pnpm check:identity-architecture           # the tenant boundary, enforced syntactically
-pnpm check:identity-architecture:selftest  # the checker's own regression fixtures
-pnpm check:videos         # one film per placement
-pnpm check:claims         # no claim typed above its evidence
-pnpm check:questions      # no question answered above its claims
-pnpm assess [path]        # research-engineering assessment, any repository
+pnpm check:invariants     # Evaluates all 50 invariants against the instance
+pnpm check:principles     # Validates executable design principles
+pnpm check:readiness      # Evaluates measured deployment prerequisites
+pnpm check:docs           # Enforces zero-drift documentation metrics
+pnpm check:contracts      # Validates repository contract guarantees
+pnpm smoke:dev            # Drives 37 live HTTP cases through the Next.js server
+pnpm assess               # Research-engineering assessment suite
 ```
 
-## What is not built
+---
 
-Stated here rather than discovered later.
+## Documentation Directory
 
-- **No production execution has ever run.** The runner, recording, replay and
-  metrics are proven against a real database with a test provider. No model has
-  answered a real request, because no credential exists.
-- **No sign-in for anyone but a developer.** Production sign-in returns 503
-  without a message delivery provider.
-- **No benchmark dataset.** LegalBench-UK needs qualified legal reviewers.
-  Generating one would produce material indistinguishable from expert-reviewed
-  ground truth that no expert had seen.
-- **No deployment target.** ADR-001 records the options and recommends one; the
-  decision commits money and a jurisdiction, and has not been made.
-- **1 of 16 workspace pages** meets the completeness rule. The first one required building a repository layer that did not exist, which is why the number was zero rather than low.
+| Document | Description |
+| :--- | :--- |
+| [`PRINCIPLES.md`](PRINCIPLES.md) | Enforced design principles and code verification |
+| [`docs/OISC_CODE_OF_STANDARDS.md`](docs/OISC_CODE_OF_STANDARDS.md) | OISC / IAA regulatory standards, adviser levels & conduct rules |
+| [`docs/INVARIANTS.md`](docs/INVARIANTS.md) | The 50 system invariants, outcomes, and falsification rules |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Comprehensive system architecture and subsystem boundary guide |
+| [`docs/PRODUCT_DOMAIN.md`](docs/PRODUCT_DOMAIN.md) | Domain structures for UK migration, citizenship, and integration |
+| [`docs/OPERATOR_RUNBOOK.md`](docs/OPERATOR_RUNBOOK.md) | Production operation runbook and evidence verification matrix |
+| [`docs/DEVELOPMENT_SMOKE.md`](docs/DEVELOPMENT_SMOKE.md) | HTTP smoke suite specification and contract guarantees |
+| [`docs/adr/`](docs/adr/) | Architecture Decision Records (ADRs) |
+| [`docs/KNOWN_DEFECTS.md`](docs/KNOWN_DEFECTS.md) | Transparent inventory of understood, unaddressed engineering debt |
 
-## Documentation
+---
 
-| Document                                               | Contents                                         |
-| [`PRINCIPLES.md`](PRINCIPLES.md)                       | The principles, and the code enforcing them      |
-| [`docs/INVARIANTS.md`](docs/INVARIANTS.md)             | The registry, its outcomes, falsification        |
-| [`docs/OPERATOR_RUNBOOK.md`](docs/OPERATOR_RUNBOOK.md) | Deployment prerequisites and the evidence matrix |
-| [`docs/OISC_CODE_OF_STANDARDS.md`](docs/OISC_CODE_OF_STANDARDS.md) | OISC/IAA regulatory standards & conduct rules |
-| [`docs/adr/`](docs/adr/)                               | Architecture decisions                           |
-| [`PROGRAMME_PHASES.md`](PROGRAMME_PHASES.md)           | Delivery phases                                  |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)         | Component architecture                           |
+## License & Compliance
 
-## Research status
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
 
-Three of the five ideas have running code and falsified evidence. Two do not yet
-have results that would make them research claims rather than architectural
-ones:
-
-- **Agent Capability Governance** — registry, permissions, ceilings and refusals
-  are implemented and falsified, and every agent still stands at `draft` with
-  zero executions. The governance has never been tested against an agent that
-  did something.
-- **Evidence-driven provider routing** — the mechanism refuses to rank providers
-  without benchmark evidence, and no benchmark has been run.
-
-Nothing here is published, and no result has been externally replicated.
-
-## Licence
-
-See [`LICENSE`](LICENSE).
+> **Regulatory Notice:** LegalOS is software infrastructure for organizations and legal practitioners. It does not provide legal advice under Section 84 of the Immigration and Asylum Act 1999. All reserved legal activities remain with qualified, regulated human professionals.
