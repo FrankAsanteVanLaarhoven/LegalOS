@@ -1,0 +1,8 @@
+{
+  "checkId": "evidence_digest_is_recomputed",
+  "passed": true,
+  "at": "2026-07-27T14:06:14.451Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/evidence-repository.test.ts",
+  "demonstrates": "every file version stored a sha-256 of its bytes and verification recomputed it from storage; altering the stored bytes moved the item to disputed with the mismatch recorded; an empty file was refused"
+}

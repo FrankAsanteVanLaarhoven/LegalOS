@@ -1,0 +1,36 @@
+{
+  "name": "@legalos/integration",
+  "version": "0.2.0-dev",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test/*.test.ts",
+    "test:db": "node --test --test-concurrency=1 test/authentication/*.test.ts test/evidence/*.test.ts test/audit/*.test.ts test/execution/*.test.ts test/domain/*.test.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@legalos/auth": "workspace:*",
+    "@legalos/database": "workspace:*",
+    "@legalos/evidence": "workspace:*",
+    "@legalos/privacy": "workspace:*",
+    "@legalos/execution": "workspace:*",
+    "@legalos/agentos": "workspace:*",
+    "@legalos/bench": "workspace:*",
+    "@legalos/readiness": "workspace:*",
+    "@legalos/repositories": "workspace:*",
+    "@legalos/capabilities": "workspace:*"
+  }
+}

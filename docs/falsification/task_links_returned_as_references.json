@@ -1,0 +1,8 @@
+{
+  "observationId": "task_links_returned_as_references",
+  "mutation": "Cycle detection was disabled in addTaskDependency by short-circuiting the reachability check to false, leaving the recursive CTE running and its result unused.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "50c5b794fbe063b33b934a2dda9632bd73834ff6",
+  "performedBy": "manual mutation during Phase 3C. Both 'a two-task cycle is refused' and 'a three-task cycle is refused' went false, and the dependency edges were written. A cycle is unrecoverable through the domain API: every task in it reports an unresolved predecessor for ever, so none can be completed, and nothing in the schema explains why. Restoring the check returned both to true."
+}

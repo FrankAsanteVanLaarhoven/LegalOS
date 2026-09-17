@@ -1,0 +1,8 @@
+{
+  "observationId": "resource_id_does_not_select_tenant",
+  "mutation": "M2/M3. `resolveTenant` was changed to prefer a resourceOrganisationId over the validated session selection — the URL-and-resource-precedence mutation.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "bfd20b1d7fc734f9f1efd08b3d7f74e2d0e14acc",
+  "performedBy": "executed during Phase 4A'. The first attempt produced NO failure, and that was a defect in the test rather than in the code: ST-G6 enumerated a hand-written list of parameter names, so a mutation adding a NEW parameter walked past it. The test was rewritten to submit nine plausible resource keys behaviourally and assert the active tenant is unchanged. Re-run, the mutation turned 'no resource identifier can change the active tenant' false. Restored."
+}

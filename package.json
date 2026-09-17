@@ -1,0 +1,46 @@
+{
+  "name": "legalos-ai",
+  "version": "0.2.0-dev",
+  "private": true,
+  "description": "LegalOS AI \u2014 Legal Intelligence Operating System (monorepo)",
+  "packageManager": "pnpm@10.20.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @legalos/web dev",
+    "build": "pnpm -r --filter @legalos/web build",
+    "build:all": "pnpm -r build",
+    "start": "pnpm --filter @legalos/web start",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json,yml}\"",
+    "check:videos": "node scripts/check-video-uniqueness.mjs",
+    "trust:ledger": "node --experimental-strip-types scripts/trust-ledger.mjs",
+    "check:principles": "node --experimental-strip-types scripts/check-principles.mjs",
+    "check:pages": "node scripts/check-pages.mjs",
+    "test:integration": "pnpm test:db:setup && pnpm --filter @legalos/integration test:db",
+    "check:invariants": "node --experimental-strip-types scripts/check-invariants.mjs",
+    "check:readiness": "node --experimental-strip-types scripts/check-readiness.mjs",
+    "check:readiness:structural": "node --experimental-strip-types scripts/check-readiness.mjs --mode=structural",
+    "check:readiness:deployment": "node --experimental-strip-types scripts/check-readiness.mjs --mode=deployment",
+    "check:docs": "node --experimental-strip-types scripts/check-docs.mjs",
+    "assess": "node --experimental-strip-types scripts/assess.mjs",
+    "check:claims": "node --experimental-strip-types scripts/check-claims.mjs",
+    "check:questions": "node --experimental-strip-types scripts/check-questions.mjs",
+    "check:contracts": "node --experimental-strip-types scripts/check-contracts.mjs",
+    "check:identity-architecture": "node --experimental-strip-types scripts/check-identity-architecture.mjs",
+    "check:identity-architecture:selftest": "node --experimental-strip-types scripts/check-identity-selftest.mjs",
+    "smoke:dev": "node --experimental-strip-types scripts/smoke-dev.mjs",
+    "check:smoke": "node scripts/check-smoke-evidence.mjs",
+    "bootstrap": "node --experimental-strip-types scripts/bootstrap.mjs",
+    "test:db:setup": "node --experimental-strip-types scripts/test-db.mjs setup",
+    "test:db:drop": "node --experimental-strip-types scripts/test-db.mjs drop"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "typescript": "^5.9.3"
+  }
+}

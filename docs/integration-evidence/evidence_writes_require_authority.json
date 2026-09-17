@@ -1,0 +1,8 @@
+{
+  "checkId": "evidence_writes_require_authority",
+  "passed": true,
+  "at": "2026-07-27T14:06:14.449Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/evidence-repository.test.ts",
+  "demonstrates": "a client could read evidence and could neither create an item nor attach a file; a caseworker could record a digest verification and could not record a professional one"
+}

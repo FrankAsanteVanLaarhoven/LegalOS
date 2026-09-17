@@ -1,0 +1,30 @@
+# Local PostgreSQL for development.
+#
+#   docker compose up -d
+#   DATABASE_URL=postgres://legalos:legalos@localhost:5433/legalos \
+#     pnpm --filter @legalos/database migrate
+#
+# Port 5433 on the host, deliberately: 5432 is commonly already taken by a
+# system Postgres, and silently attaching to someone else's database is worse
+# than failing to start.
+services:
+  postgres:
+    # pgvector image so the embeddings migration applies without extra setup.
+    image: pgvector/pgvector:pg17
+    container_name: legalos-postgres
+    environment:
+      POSTGRES_USER: legalos
+      POSTGRES_PASSWORD: legalos
+      POSTGRES_DB: legalos
+    ports:
+      - "5433:5432"
+    volumes:
+      - legalos-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U legalos -d legalos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  legalos-pgdata:

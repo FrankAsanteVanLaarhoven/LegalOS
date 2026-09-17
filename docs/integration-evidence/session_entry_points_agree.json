@@ -1,0 +1,8 @@
+{
+  "checkId": "session_entry_points_agree",
+  "passed": true,
+  "at": "2026-07-27T14:40:04.761Z",
+  "commit": "5851e7f487d4a88c7a0da1698c7106276e1e348d",
+  "producedBy": "packages/integration/test/authentication/session-equivalence.test.ts",
+  "demonstrates": "eleven session vectors were run through the shared verifier, the switch path and the tenant resolver against real sessions rows, agreeing on authentication verdict, resolved account and refusal classification for every one; the expiry boundary was identical before, exactly at and after expiry under a controlled clock; duplicate cookies resolve last-wins identically for both Next access paths because both are the same RequestCookies class, and an undecodable percent-escape is dropped rather than accepted; active-organisation preference resolved identically including selection-required, indistinguishable inaccessible-and-nonexistent refusals, and revoked membership; no submitted actorId, accountId, membershipId, role, permissions or organisationId changed any resolved value; and a structural guard asserts all three entry points call verifySessionToken and none retains a direct checkSession call"
+}

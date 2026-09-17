@@ -1,0 +1,8 @@
+{
+  "checkId": "active_tenant_requires_membership",
+  "passed": true,
+  "at": "2026-07-27T14:06:12.474Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/authentication/tenant-resolution.test.ts",
+  "demonstrates": "a perfectly signed selection for an organisation the account has no workspace_members row in was refused on the membership read rather than on the signature; a selection signed with another secret was ignored entirely"
+}

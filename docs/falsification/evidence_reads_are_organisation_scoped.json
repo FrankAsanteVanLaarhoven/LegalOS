@@ -1,0 +1,8 @@
+{
+  "observationId": "evidence_reads_are_organisation_scoped",
+  "mutation": "The organisation comparison was deleted from EvidenceRepository#resolve, leaving `if (!row)` in place of `if (!row || row.organization_id !== context.organisationId)`.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "eb2eaeda81a41635e3dfdcc6b0680026769f110f",
+  "performedBy": "manual mutation during Phase 4A. Only 'a person acting for two organisations carries nothing between them' went false, matching deadlines, reviews, tasks and the graph. Restoring the comparison returned it to true."
+}

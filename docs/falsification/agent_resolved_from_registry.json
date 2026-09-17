@@ -1,0 +1,8 @@
+{
+  "observationId": "agent_resolved_from_registry",
+  "mutation": "ExecutionRunner.execute() stopped throwing UnknownAgentError, so an execution naming an id nobody registered reached a provider and ran under a name with no declared permissions.",
+  "observedFalse": true,
+  "at": "2026-07-27T01:40:00.000Z",
+  "commit": "7ea7f254dc98678658f26f0b887e1b7125eb8336",
+  "performedBy": "manual mutation during the AgentOS milestone; the unregistered-agent and human-review assertions failed and the evidence flipped to passed:false"
+}

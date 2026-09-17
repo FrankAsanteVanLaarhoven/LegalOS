@@ -1,0 +1,8 @@
+{
+  "observationId": "no_capability_exceeds_its_observations",
+  "mutation": "Reverted the authentication capability's declaredEvidence from production_telemetry to unit_tests in packages/capabilities/src/platform.ts, restoring the stale ceiling that had been silently discarding a measured rise to integration_tests.",
+  "observedFalse": true,
+  "at": "2026-07-26T19:20:00.000Z",
+  "commit": "d9a70026472ecd3082ec95459b8845ca5ccc6a86",
+  "performedBy": "manual mutation during the invariant registry milestone; the observation went true to false and back to true when the line was restored"
+}

@@ -1,0 +1,8 @@
+{
+  "checkId": "deadline_no_fixture_fallback",
+  "passed": true,
+  "at": "2026-07-27T14:06:13.159Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/deadline-repository.test.ts",
+  "demonstrates": "a case with no persisted deadlines returned an empty list; the package depends only on @legalos/auth and @legalos/database and contains no reference to the app or any fixture module"
+}

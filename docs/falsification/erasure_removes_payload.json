@@ -1,0 +1,8 @@
+{
+  "observationId": "erasure_removes_payload",
+  "mutation": "PostgresAuditStore.tombstone() stopped emptying the payload and set only tombstoned_at.",
+  "observedFalse": true,
+  "at": "2026-07-26T21:15:00.000Z",
+  "commit": "a0a242511dec2d47d99c4ffdf512fa6fccf3d008",
+  "performedBy": "manual mutation during the audit observer milestone; same run as audit_chain_valid_after_tombstone"
+}

@@ -1,0 +1,40 @@
+# Functional-identifier allowlist for the attribution pre-commit hook.
+#
+# The paths below legitimately contain an external vendor's NAME as a functional
+# API identifier that cannot be renamed: the npm package name of the SDK used to
+# reach the xAI endpoint (which exposes a compatible wire format), its default
+# import binding, the resolved entries for that package in the lockfile, and the
+# union of provider kinds a workspace may connect its own inference to — those
+# are configuration values a customer selects, not credit given to anyone.
+#
+# This does NOT relax attribution checking. Authorship trailers, provenance
+# notes, assistant branding and credit lines remain blocked on these paths
+# exactly as everywhere else in the repository.
+
+packages/providers/src/index.ts
+packages/providers/test/providers.test.ts
+apps/web/package.json
+pnpm-lock.yaml
+
+# The SDK moved out of apps/web when the execution runner became the only route
+# to a model. apps/web no longer depends on it at all; these are where the
+# package name now appears as a functional identifier.
+packages/execution/package.json
+packages/execution/src/providers/xai.ts
+
+# Names the SDK package names it checks for. The observation exists precisely to
+# detect any package other than the runner depending on one, so it cannot do its
+# job without naming them.
+packages/capabilities/src/observe.ts
+
+# Records which dependency was added to make the observation report false. The
+# package name is the substance of the record: without it the mutation cannot be
+# repeated, which is the whole point of a falsification record.
+docs/falsification/provider_access_confined_to_runner.json
+
+# The multi-model gateway adapter speaks a widely implemented request shape and
+# names no vendor: endpoint, credential and model id all come from the
+# environment. Listed because the provider-selection strings it reads are
+# functional configuration identifiers.
+packages/execution/src/providers/gateway.ts
+packages/execution/src/runner-factory.ts

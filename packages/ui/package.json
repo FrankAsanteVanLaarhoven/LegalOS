@@ -1,0 +1,22 @@
+{
+  "name": "@legalos/ui",
+  "version": "0.2.0-dev",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit"
+  },
+  "types": "./src/index.ts",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

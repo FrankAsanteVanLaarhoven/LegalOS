@@ -1,0 +1,8 @@
+{
+  "observationId": "graph_assertions_carry_source_locator",
+  "mutation": "The `ev.case_id = e.case_id` comparison was removed from TRACEABILITY_SQL, so an evidence link resolving to a document in any case counted as traceability.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "313b21e480646ecd42471320c472298f97e12766",
+  "performedBy": "manual mutation during Phase 3D, against the production EV-005 observer rather than a copy. 'a dangling evidence link does not satisfy the observer' went false: an assertion on one case, backed only by a document belonging to another organisation's case, was reported traceable. This is the failure the observer exists to catch — a citation that resolves to a real document proves nothing if the document is from a different matter."
+}

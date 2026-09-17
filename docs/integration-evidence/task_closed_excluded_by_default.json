@@ -1,0 +1,8 @@
+{
+  "checkId": "task_closed_excluded_by_default",
+  "passed": true,
+  "at": "2026-07-27T14:06:18.471Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/task-repository.test.ts",
+  "demonstrates": "completed and cancelled tasks were excluded from the open read and remained available in the history read; ordering was by priority rank, then creation, then id, and was identical across two consecutive reads"
+}

@@ -1,0 +1,8 @@
+{
+  "checkId": "evidence_history_is_append_only",
+  "passed": true,
+  "at": "2026-07-27T14:06:14.461Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/evidence-repository.test.ts",
+  "demonstrates": "evidence_events and evidence_provenance each refused UPDATE, DELETE and TRUNCATE CASCADE by their own statement triggers; a file version could not be deleted; a case carrying evidence history could not be deleted"
+}

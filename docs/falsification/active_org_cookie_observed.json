@@ -1,0 +1,8 @@
+{
+  "observationId": "active_org_cookie_observed",
+  "mutation": "The emitted cookie was attacked from three directions. `httpOnly: true` was weakened to `httpOnly: false` in the adapter. Organisation identifiers carrying `;`, CR and LF were submitted as switch targets, attempting to append a `Domain=evil.example` attribute or a second `Set-Cookie: legalos_session=stolen` header. Cookie option fields \u2014 `httpOnly`, `secure`, `sameSite`, `path`, `maxAge`, `domain` \u2014 were submitted alongside the switch input.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "5851e7f487d4a88c7a0da1698c7106276e1e348d",
+  "performedBy": "executed during obligation 3. Weakening HttpOnly turned \"the adapter's options match what this suite asserts\" false. The delimiter-bearing identifiers were refused by `maySwitchTo` before any header was constructed, and the signer independently emits no `;`, CR or LF, so neither reached serialization. The submitted option fields did not appear in the parsed header: no Domain attribute, HttpOnly and SameSite=Lax and Path=/ and Max-Age unchanged. The bounded claim is recorded with the record: this measures the header the server emits. It does not and cannot demonstrate that a browser stores it, returns it, or enforces any attribute in it."
+}

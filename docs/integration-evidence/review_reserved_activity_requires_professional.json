@@ -1,0 +1,8 @@
+{
+  "checkId": "review_reserved_activity_requires_professional",
+  "passed": true,
+  "at": "2026-07-27T14:06:16.586Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/review-repository.test.ts",
+  "demonstrates": "a caseworker could not decide a review requiring a professional; a solicitor with no registration on record could not either; a reviewer from another organisation was refused; and the person who asked for the review could not decide it even holding exactly the required role and registration"
+}

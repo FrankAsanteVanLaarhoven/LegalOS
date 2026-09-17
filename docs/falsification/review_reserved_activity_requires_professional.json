@@ -1,0 +1,8 @@
+{
+  "observationId": "review_reserved_activity_requires_professional",
+  "mutation": "The separation-of-duty clause was deleted from `mayDecide` in review-model.ts — the branch refusing a decision when `actorId === requestedBy`.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "a1703b8b2ba23beb1416ff14d4c11bd6426b9cc9",
+  "performedBy": "manual mutation during Phase 3B. The test 'the person who asked for a review cannot decide it' went false: the requesting caseworker recorded an approval on their own request, which passed every other authority check because the actor held a valid role in the workspace. Restoring the clause returned it to true. This is the refusal that would be invisible without a dedicated test — a self-approval is well-formed in every other respect."
+}

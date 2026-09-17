@@ -1,0 +1,8 @@
+{
+  "checkId": "active_tenant_selection_deterministic",
+  "passed": true,
+  "at": "2026-07-27T14:06:12.479Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/authentication/tenant-resolution.test.ts",
+  "demonstrates": "two memberships and no preference returned selection_required against the real query and against its reversed result; one membership resolved deterministically and asked to be persisted; no memberships returned no_active_organisation"
+}

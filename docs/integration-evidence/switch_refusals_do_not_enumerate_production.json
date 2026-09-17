@@ -1,0 +1,8 @@
+{
+  "checkId": "switch_refusals_do_not_enumerate_production",
+  "passed": true,
+  "at": "2026-07-27T14:06:12.269Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/authentication/switch-production.test.ts",
+  "demonstrates": "nonexistent, real-but-inaccessible, revoked-membership and malformed targets produced deeply equal refusals through the production core, with no audit entry and no cookie for any of them"
+}

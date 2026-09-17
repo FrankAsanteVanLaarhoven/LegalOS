@@ -1,0 +1,8 @@
+{
+  "observationId": "switch_audited_before_effect_production",
+  "mutation": "F4. The audit catch block was changed to return success with a cookie mutation instead of `audit_failed`, inverting the audit-before-cookie ordering.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "performedBy": "executed during obligation 2. 'an audit failure produces no cookie and leaves the caller on alpha' went false: the core returned a signed cookie for a switch that had no audit record. This is the decisive ST-G8 production-path proof. Restored."
+}

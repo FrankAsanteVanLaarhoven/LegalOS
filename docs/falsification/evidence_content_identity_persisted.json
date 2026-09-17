@@ -1,0 +1,8 @@
+{
+  "observationId": "evidence_content_identity_persisted",
+  "mutation": "None — this record documents the observation being measured FALSE for the whole programme before Phase 4A, and the two separate reasons it was.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "eb2eaeda81a41635e3dfdcc6b0680026769f110f",
+  "performedBy": "not a mutation but a genuine, published failure. EV-001 reported failed from the day the invariant registry was written, because the observer parsed evidence_items looking for a checksum column and there was none — the table was a title, a category and a status. Migration 0017 added evidence_files with a digest and its algorithm, and the observer was corrected to read the table where content identity actually belongs: one logical item can have several file versions and each has its own bytes, so a digest on the item would have been wrong. Removing either the digest column or the digest_algorithm column from 0017 returns this observation to false, which is the falsification path for anyone repeating it."
+}

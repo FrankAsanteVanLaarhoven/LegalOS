@@ -1,0 +1,8 @@
+{
+  "checkId": "graph_no_fixture_fallback",
+  "passed": true,
+  "at": "2026-07-27T14:06:15.703Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/graph-repository.test.ts",
+  "demonstrates": "a case with no persisted graph returned empty node and edge lists and no database returned NO_DATABASE; two concurrent identical edges produced exactly one live edge with one assertion, and two concurrent supersessions of one assertion produced exactly one replacement"
+}

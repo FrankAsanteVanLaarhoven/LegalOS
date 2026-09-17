@@ -1,0 +1,244 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f7f6f3;
+  --bg-elevated: #ffffff;
+  --ink: #111111;
+  --ink-soft: #2a2a2a;
+  --muted: #6a6a6a;
+  --line: #e4e2dc;
+  --line-strong: #d0cec6;
+  --accent: #1a2744;
+  --accent-hover: #0f1829;
+  --accent-soft: #e8e4db;
+  --warm: #f0ebe3;
+  --success: #1f5c45;
+  --warning: #8a5a12;
+  --danger: #8b2e2e;
+  --shadow: 0 1px 0 rgba(17, 17, 17, 0.04), 0 18px 40px rgba(17, 17, 17, 0.06);
+  /* workspace compatibility aliases */
+  --background: var(--bg);
+  --foreground: var(--ink);
+  --border: var(--line);
+  --graphite: var(--ink-soft);
+  --shadow-soft: var(--shadow);
+  --shadow-float: 0 2px 0 rgba(17, 17, 17, 0.03), 0 24px 48px rgba(17, 17, 17, 0.07);
+  --card: var(--bg-elevated);
+}
+
+html.dark,
+html[data-theme="dark"] {
+  --bg: #0e0f12;
+  --bg-elevated: #16181d;
+  --ink: #f3f1ec;
+  --ink-soft: #d2cfc7;
+  --muted: #9a968c;
+  --line: #2a2d34;
+  --line-strong: #3a3e48;
+  --accent: #9eb6d9;
+  --accent-hover: #c2d2ea;
+  --accent-soft: #1c2433;
+  --warm: #151820;
+  --success: #5dba93;
+  --warning: #e0a84a;
+  --danger: #e07a7a;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --color-muted: var(--muted);
+  --color-border: var(--line);
+  --color-card: var(--bg-elevated);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.011em;
+}
+
+::selection {
+  background: rgba(26, 39, 68, 0.14);
+  color: var(--ink);
+}
+
+/* Editorial type */
+.font-serif {
+  font-family: var(--font-serif), "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+}
+
+.display {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 450;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Photography treatments */
+.photo-frame {
+  position: relative;
+  overflow: hidden;
+  background: #ddd9d1;
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ken-burns {
+  animation: kenBurns 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes kenBurns {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.06) translate3d(-1.2%, -0.8%, 0);
+  }
+}
+
+.photo-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(17, 17, 17, 0.08) 0%,
+    rgba(17, 17, 17, 0.35) 55%,
+    rgba(17, 17, 17, 0.72) 100%
+  );
+  pointer-events: none;
+}
+
+.photo-veil-soft {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(247, 246, 243, 0.92) 0%, rgba(247, 246, 243, 0.2) 55%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Rules */
+.hairline {
+  height: 1px;
+  background: var(--line);
+}
+
+/* Quiet link underline */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: background-size 0.25s ease, color 0.2s ease;
+}
+
+.link-underline:hover {
+  background-size: 0 1px;
+}
+
+/* Scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #c8c5bc transparent;
+}
+
+/* Workspace retains slightly denser UI */
+.prose-legal h2 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.prose-legal p,
+.prose-legal li {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.prose-legal ul {
+  list-style: disc;
+  padding-left: 1.15rem;
+  margin: 0.25rem 0 0.5rem;
+}
+
+/* Reduce “SaaS card grid” feel */
+.section-pad {
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .section-pad {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-pad {
+    padding-inline: 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ken-burns {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .reps-marquee {
+    animation: none !important;
+  }
+}
+
+/* Infinite reps carousel */
+@keyframes reps-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(var(--reps-shift, -50%), 0, 0);
+  }
+}
+
+.reps-marquee {
+  animation: reps-marquee-scroll var(--reps-duration, 36s) linear infinite;
+  will-change: transform;
+}
+
+.reps-marquee-paused {
+  animation-play-state: paused;
+}

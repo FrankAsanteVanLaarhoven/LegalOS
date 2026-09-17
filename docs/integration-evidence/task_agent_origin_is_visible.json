@@ -1,0 +1,8 @@
+{
+  "checkId": "task_agent_origin_is_visible",
+  "passed": true,
+  "at": "2026-07-27T14:06:18.455Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/task-repository.test.ts",
+  "demonstrates": "every task carries its source and, where a model proposed it, the execution that did so — enforced by the schema constraint and validated before the write, so a model-proposed task cannot be recorded as indistinguishable from one a solicitor set"
+}

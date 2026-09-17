@@ -1,0 +1,8 @@
+{
+  "observationId": "provider_access_confined_to_runner",
+  "mutation": "A dependency on the `openai` SDK was re-added to apps/web, restoring the route by which two API routes previously called a model with no execution record between them.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:20:00.000Z",
+  "commit": "44604610f0b93d69b1b86d42b4102e18ddc30ea0",
+  "performedBy": "manual mutation while wiring the runner into apps/web; the observation went false and returned to true when the dependency was removed. The earlier version of this check, which looked only at @legalos/providers, reported true throughout that bypass."
+}

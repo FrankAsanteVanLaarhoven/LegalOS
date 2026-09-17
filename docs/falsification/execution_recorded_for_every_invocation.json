@@ -1,0 +1,8 @@
+{
+  "observationId": "execution_recorded_for_every_invocation",
+  "mutation": "ExecutionRunner.execute() skipped store.record() and generated an execution id locally, so the provider was invoked with no row to account for it \u2014 the silent-bypass failure mode AU-005 exists to prevent. Separately, ExecutionRunner stopped refreshing the agent metrics projection on completion, leaving standing derived from a projection no execution had updated; both assertions covering continuous projection failed.",
+  "observedFalse": true,
+  "at": "2026-07-26T23:30:00.000Z",
+  "commit": "75d74ce0d862bbcbb577476c8f9ebf4feaa929e3",
+  "performedBy": "manual mutation during the execution runner milestone; the provider's own invocation count exceeded the number of execution records and the evidence flipped to passed:false"
+}

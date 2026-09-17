@@ -1,0 +1,8 @@
+{
+  "observationId": "session_durability_survives_restart",
+  "mutation": "PostgresSessionStore.put in packages/database/src/session-store.ts returned early without executing its INSERT, reproducing the in-memory store's behaviour of losing writes.",
+  "observedFalse": true,
+  "at": "2026-07-26T18:08:03.059Z",
+  "commit": "c617b061423f6cc158f7a7efe10966a86dab7970",
+  "performedBy": "manual mutation during the durability milestone; five of six assertions failed and the emitted evidence record flipped from passed:true to passed:false. The mutation was reverted and the store confirmed unchanged."
+}

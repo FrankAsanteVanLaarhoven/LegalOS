@@ -1,0 +1,38 @@
+{
+  "name": "@legalos/database",
+  "version": "0.2.0-dev",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test/*.test.ts",
+    "migrate": "node --experimental-strip-types scripts/migrate.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/pg": "^8.11.10",
+    "pg": "^8.13.1"
+  },
+  "dependencies": {
+    "@legalos/governance": "workspace:*",
+    "@legalos/auth": "workspace:*"
+  },
+  "peerDependencies": {
+    "pg": "^8.13.1"
+  },
+  "peerDependenciesMeta": {
+    "pg": {
+      "optional": true
+    }
+  },
+  "types": "./src/index.ts"
+}

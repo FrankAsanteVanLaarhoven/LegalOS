@@ -1,0 +1,8 @@
+{
+  "observationId": "graph_every_edge_carries_an_assertion",
+  "mutation": "The `.filter((e) => e.assertions.length > 0)` was removed from readGraph, so edges with no assertion reached the read model.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "313b21e480646ecd42471320c472298f97e12766",
+  "performedBy": "manual mutation during Phase 3D. An edge inserted directly with no assertion — as a stray script or a partially failed write would leave — appeared in the returned graph. On screen it is a line between two documents with nobody's name on it, which reads as an established relationship in the case."
+}

@@ -1,0 +1,8 @@
+{
+  "observationId": "agent_metrics_projection_faithful",
+  "mutation": "PostgresAgentMetrics.drift() compared the stored source_digest column instead of recomputing the digest from the stored row's own values, so a projection whose counts were edited without touching the digest column read as faithful.",
+  "observedFalse": true,
+  "at": "2026-07-27T02:30:00.000Z",
+  "commit": "0a7eba88e22b8679d6720288c163f530d1b529ad",
+  "performedBy": "manual mutation during the metrics projection milestone. This was not a hypothetical: the implementation shipped with exactly this defect and the integration test caught it before the observer was wired, which is why the mutation is the original code."
+}

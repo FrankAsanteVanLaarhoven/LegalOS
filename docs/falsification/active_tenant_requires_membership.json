@@ -1,0 +1,8 @@
+{
+  "observationId": "active_tenant_requires_membership",
+  "mutation": "M1. `selectOrganisation` was changed to accept any signed preference without checking it against current memberships (`if (organisations.includes(preference))` -> `if (true)`).",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "bfd20b1d7fc734f9f1efd08b3d7f74e2d0e14acc",
+  "performedBy": "executed during Phase 4A'. On its own this produced NO failure, which is the finding: governingMembership independently returns null for an organisation with no membership, so the same refusal code was reached by a second path. The property is enforced twice. Mutating both together — the selection check and the governing-membership lookup — turned 'a cookie naming an organisation without a membership does not activate it' and 'a forged cookie signature cannot authorise a tenancy' false. Recorded as a two-mechanism property rather than claiming the single mutation bit."
+}

@@ -1,0 +1,8 @@
+{
+  "checkId": "review_emits_no_probability",
+  "passed": true,
+  "at": "2026-07-27T14:06:16.610Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/review-repository.test.ts",
+  "demonstrates": "no field on any returned request or decision was numeric — apart from the integer version token — or named for a confidence, probability, score, likelihood, percentage, reliability or success-rate figure"
+}

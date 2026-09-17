@@ -1,0 +1,8 @@
+{
+  "observationId": "dataset_governance_enforced",
+  "mutation": "verifyDataset() used the manifest's declared digest as the computed one instead of recomputing it from the samples, so a dataset edited after its manifest was written verified clean.",
+  "observedFalse": true,
+  "at": "2026-07-27T06:15:00.000Z",
+  "commit": "3ace58606d7402dede5bd460efbc2715fbb825ad",
+  "performedBy": "manual mutation during the dataset governance milestone. The first attempt exposed a defect in the test rather than the code: emitEvidence sat after the assertion, so a failing run threw first and left the previous passing record in place. Moving the emit before the assertion made the mutation visible, and the record then flipped to passed:false."
+}

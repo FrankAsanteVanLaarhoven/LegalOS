@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Previously a single job that built and linted apps/web only. It never ran
+  # `-r`, never ran typecheck or tests, and — since no package was imported by
+  # the app — deleting a package's entire contents would still have gone green.
+  workspace:
+    name: Workspace checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          # Node 22+ runs the packages' TypeScript tests directly via type
+          # stripping; Node 20 cannot.
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Format
+        run: pnpm format:check
+
+      - name: Typecheck (all packages)
+        run: pnpm -r typecheck
+
+      - name: Test (all packages)
+        run: pnpm -r test
+
+      - name: Principles conformance
+        run: pnpm check:principles
+
+      # Fails on structural defects in the registry only. An invariant with no
+      # observer is reported and counted, not treated as a build failure —
+      # otherwise the cheapest way to a green build is deleting the property.
+      - name: System invariants
+        run: pnpm check:invariants
+
+      # Structural tier only: asks whether the platform still knows how to
+      # measure readiness, never whether this environment is ready. Needs no
+      # secret, so a contributor's pipeline does not go red for lacking
+      # production credentials — a pipeline that is always red teaches people to
+      # stop reading it.
+      - name: Readiness engine (structural)
+        run: pnpm check:readiness:structural
+
+      # Every figure the README states about this repository, recomputed and
+      # compared. A number cannot survive the thing it describes changing.
+      - name: Documentation figures
+        run: pnpm check:docs
+
+      # Engineering, scientific and operational evidence are different kinds.
+      # Mixing them is how an architecture gets mistaken for a result.
+      - name: Claims register
+        run: pnpm check:claims
+
+      # A question may not report a status the claims it cites do not carry.
+      - name: Research questions
+        run: pnpm check:questions
+
+      - name: Page completeness
+        run: pnpm check:pages
+
+      - name: Video uniqueness
+        run: pnpm check:videos
+
+      - name: Lint web
+        run: pnpm --filter @legalos/web lint
+
+      - name: Build web
+        run: pnpm --filter @legalos/web build

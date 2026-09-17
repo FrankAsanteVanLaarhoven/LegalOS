@@ -1,0 +1,8 @@
+{
+  "observationId": "review_reads_are_organisation_scoped",
+  "mutation": "The organisation comparison was deleted from ReviewRepository#resolve, leaving `if (!row)` in place of `if (!row || row.organization_id !== context.organisationId)`.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "a1703b8b2ba23beb1416ff14d4c11bd6426b9cc9",
+  "performedBy": "manual mutation during Phase 3B. The test 'a person acting for two organisations carries nothing between them' went false; every other cross-tenancy test in the suite stayed green, which is the same result the deadline repository produced and the reason that test shape exists. Restoring the comparison returned it to true."
+}

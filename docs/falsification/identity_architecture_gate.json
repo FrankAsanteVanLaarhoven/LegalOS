@@ -1,0 +1,8 @@
+{
+  "observationId": "identity_architecture_gate",
+  "mutation": "Seven mutations written into the real source tree at apps/web/src/app/workspace/, one per rule: a hand-assembled RepositoryContext; actorId and organisationId read off FormData; a second SESSION_COOKIE declaration; ACTIVE_ORG_COOKIE used outside the resolver; a route querying workspace_members; a client component importing the context factory; a function named buildTenantContext.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "ea3df73ea8401aaf3f0a7ae490f1f02902b2187c",
+  "performedBy": "executed during Phase 4A'. Each fired its intended rule with file, line and column, and the gate exited non-zero: ST-A1, ST-A2, ST-A4, ST-A5, ST-A6, ST-A7, ST-A8 in turn. Every probe file was removed and the gate returned green. The first run against the untouched tree also found six real violations: two hard-coded session-cookie names in the auth routes (fixed), and four over-broad matches — 'query.accountId' inside the case and audit repositories, where 'query' is a typed parameter rather than a request, and the execution-runner context in /api/analyze and /api/chat, which shares two fields with a RepositoryContext but is a different object. Both rules were narrowed rather than suppressed: a rule that cries wolf on correct code gets ignored, and an ignored rule enforces nothing."
+}

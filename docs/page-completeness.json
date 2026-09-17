@@ -1,0 +1,174 @@
+{
+  "report": [
+    {
+      "page": "Ai assistant",
+      "file": "ai-assistant.tsx",
+      "missingFile": false,
+      "layers": {
+        "data": false,
+        "actions": true,
+        "observable": false,
+        "audit": false,
+        "permissions": true,
+        "verification": true
+      },
+      "complete": false
+    },
+    {
+      "page": "Analysis",
+      "file": "analysis-panel.tsx",
+      "missingFile": false,
+      "layers": {
+        "data": false,
+        "actions": false,
+        "observable": false,
+        "audit": false,
+        "permissions": false,
+        "verification": false
+      },
+      "complete": false
+    },
+    {
+      "page": "Case sidebar",
+      "file": "case-sidebar.tsx",
+      "missingFile": false,
+      "layers": {
+        "data": false,
+        "actions": false,
+        "observable": false,
+        "audit": false,
+        "permissions": false,
+        "verification": false
+      },
+      "complete": false
+    },
+    {
+      "page": "Evidence graph",
+      "file": "evidence-graph-panel.tsx",
+      "missingFile": false,
+      "layers": {
+        "data": false,
+        "actions": false,
+        "observable": false,
+        "audit": false,
+        "permissions": false,
+        "verification": false
+      },
+      "complete": false
+    },
+    {
+      "page": "Evidence",
+      "file": "evidence-panel.tsx",
+      "missingFile": false,
+      "layers": {
+        "data": false,
+        "actions": false,
+        "observable": false,
+        "audit": false,
+        "permissions": false,
+        "verification": false
+      },
+      "complete": false
+    },
+    {
+      "page": "Overview",
+      "file": "overview-panel.tsx",
+      "missingFile": false,
+      "layers": {
+        "data": false,
+        "actions": false,
+        "observable": true,
+        "audit": false,
+        "permissions": true,
+        "verification": false
+      },
+      "complete": false
+    },
+    {
+      "page": "Tasks",
+      "file": "tasks-panel.tsx",
+      "missingFile": false,
+      "layers": {
+        "data": false,
+        "actions": false,
+        "observable": false,
+        "audit": false,
+        "permissions": false,
+        "verification": false
+      },
+      "complete": false
+    },
+    {
+      "page": "Timeline",
+      "file": "timeline-panel.tsx",
+      "missingFile": false,
+      "layers": {
+        "data": false,
+        "actions": false,
+        "observable": false,
+        "audit": false,
+        "permissions": false,
+        "verification": false
+      },
+      "complete": false
+    },
+    {
+      "page": "Deadlines",
+      "file": "deadlines-panel.tsx",
+      "missingFile": true,
+      "layers": {},
+      "complete": false
+    },
+    {
+      "page": "Communications",
+      "file": "communications-panel.tsx",
+      "missingFile": true,
+      "layers": {},
+      "complete": false
+    },
+    {
+      "page": "Documents",
+      "file": "documents-panel.tsx",
+      "missingFile": true,
+      "layers": {},
+      "complete": false
+    },
+    {
+      "page": "Bundle builder",
+      "file": "bundle-panel.tsx",
+      "missingFile": true,
+      "layers": {},
+      "complete": false
+    },
+    {
+      "page": "Lawyer review",
+      "file": "review-panel.tsx",
+      "missingFile": true,
+      "layers": {},
+      "complete": false
+    },
+    {
+      "page": "Hearing preparation",
+      "file": "hearing-panel.tsx",
+      "missingFile": true,
+      "layers": {},
+      "complete": false
+    },
+    {
+      "page": "Audit",
+      "file": "audit-panel.tsx",
+      "missingFile": true,
+      "layers": {},
+      "complete": false
+    },
+    {
+      "page": "Settings",
+      "file": "settings-panel.tsx",
+      "missingFile": true,
+      "layers": {},
+      "complete": false
+    }
+  ],
+  "complete": 0,
+  "total": 16
+}

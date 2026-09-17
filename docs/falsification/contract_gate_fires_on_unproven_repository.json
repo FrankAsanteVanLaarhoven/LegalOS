@@ -1,0 +1,8 @@
+{
+  "observationId": "contract_gate_fires_on_unproven_repository",
+  "mutation": "A one-line placeholder module was written to apps/web/src/lib/repositories/deadline.ts — the path DeadlineRepository's contract names. The contract gate had reported 32 of 32 guarantees `unimplemented` and exit 0 on every run before this, which is indistinguishable from a gate that cannot fail.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "3a615f05de9dd15d900056ae094b247147b58ecc",
+  "performedBy": "manual mutation while building packages/contracts. With the file present the gate moved DeadlineRepository's eight guarantees from `unimplemented` to `unproven`, printed all eight with the check each was waiting on, and exited 1. Deleting the placeholder returned it to exit 0. This is the property the layer exists for: an empty file is enough to make a repository 'exist', and existence is what turns a promise into a debt."
+}

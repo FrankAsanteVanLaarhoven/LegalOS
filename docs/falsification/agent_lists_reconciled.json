@@ -1,0 +1,8 @@
+{
+  "observationId": "agent_lists_reconciled",
+  "mutation": "A page slug in apps/web/src/lib/data/agent-pages.ts was changed to `deportation-defence`, an agent the registry does not contain \u2014 the shape of the drift that had four lists disagreeing.",
+  "observedFalse": true,
+  "at": "2026-07-27T01:40:00.000Z",
+  "commit": "7ea7f254dc98678658f26f0b887e1b7125eb8336",
+  "performedBy": "manual mutation during the AgentOS milestone; the observation went false and returned to true when the slug was restored"
+}

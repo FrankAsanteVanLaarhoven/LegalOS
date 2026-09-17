@@ -1,0 +1,8 @@
+{
+  "observationId": "task_professional_requirement_visible",
+  "mutation": "The undecided-review branch of `mayComplete` was changed to permit completion — treating the existence of a review request as though it were an approval.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "50c5b794fbe063b33b934a2dda9632bd73834ff6",
+  "performedBy": "manual mutation during Phase 3C. 'a task requiring a professional cannot be completed on an undecided review' went false: a caseworker completed a task flagged as requiring a solicitor, on the strength of a review nobody had decided. This is the same failure the review repository is arranged to prevent — a request is not a decision — reappearing one layer up, which is why the gate reads review_decisions rather than the request's status column."
+}

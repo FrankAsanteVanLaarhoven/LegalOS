@@ -1,0 +1,8 @@
+{
+  "checkId": "task_professional_requirement_visible",
+  "passed": true,
+  "at": "2026-07-27T14:06:18.458Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/task-repository.test.ts",
+  "demonstrates": "a task requiring professional review could not be completed with no review, with an undecided review, with a reviewer merely assigned, or on a refused review; only an accepted decision read from review_decisions permitted completion"
+}

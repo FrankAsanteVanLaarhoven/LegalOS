@@ -1,0 +1,8 @@
+{
+  "checkId": "review_no_fixture_fallback",
+  "passed": true,
+  "at": "2026-07-27T14:06:16.604Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/review-repository.test.ts",
+  "demonstrates": "a case with no persisted reviews returned an empty list and no database returned NO_DATABASE; creating a request, assigning a reviewer and naming the execution that produced a subject all left hasDecision false; a request whose status column was forged to 'decided' was still reported as having no decision, because hasDecision is read from the decision table"
+}

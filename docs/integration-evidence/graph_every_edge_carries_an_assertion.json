@@ -1,0 +1,8 @@
+{
+  "checkId": "graph_every_edge_carries_an_assertion",
+  "passed": true,
+  "at": "2026-07-27T14:06:15.682Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/graph-repository.test.ts",
+  "demonstrates": "an edge inserted directly with no assertion never reached the read model, and every returned edge carried at least one assertion naming who asserted it and why; a duplicate live edge and a duplicate node subject were both refused"
+}

@@ -1,0 +1,8 @@
+{
+  "observationId": "no_self_evident_check_above_operational",
+  "mutation": "Changed a selfEvident() check in packages/capabilities/src/platform.ts from gating 'implemented' to gating 'certified', so a hand-asserted constant stood in for a measurement at the highest level.",
+  "observedFalse": true,
+  "at": "2026-07-26T19:20:00.000Z",
+  "commit": "d9a70026472ecd3082ec95459b8845ca5ccc6a86",
+  "performedBy": "manual mutation during the invariant registry milestone; the observation named the offending check by id and reported false"
+}

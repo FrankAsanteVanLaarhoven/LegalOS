@@ -1,0 +1,8 @@
+{
+  "checkId": "graph_assertion_history_preserved",
+  "passed": true,
+  "at": "2026-07-27T14:06:15.693Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/graph-repository.test.ts",
+  "demonstrates": "graph_assertions refused UPDATE and DELETE, and refused TRUNCATE CASCADE by its own statement trigger — the form that removes the incidental foreign-key objection, with graph_evidence_links confirmed to carry no such trigger; edges, nodes, cases and organisations carrying graph history could not be deleted; inducing a failure on each of six writes in turn left every graph count unchanged; the audit chain verified after a valid write"
+}

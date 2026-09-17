@@ -1,0 +1,8 @@
+{
+  "observationId": "deadline_reads_are_organisation_scoped",
+  "mutation": "The organisation comparison was deleted from DeadlineRepository#resolve, leaving `if (!row)` in place of `if (!row || row.organization_id !== context.organisationId)`.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "5ad904eeaff46d2ffd5e4897665f087c29d23793",
+  "performedBy": "manual mutation during Phase 3. The first attempt is the point of this record: with the comparison deleted the whole suite stayed green, because every cross-tenancy test then written was satisfied by the membership check alone — a caller from one organisation holds no membership in another's workspace, so the organisation predicate was carrying no measured weight. The test 'a person acting for two organisations carries nothing between them' was added to isolate it: one account with a real membership in both organisations, on a session scoped to the first, reading the second's case. With that test present the mutation makes the observation report false; restoring the comparison returns it to true."
+}

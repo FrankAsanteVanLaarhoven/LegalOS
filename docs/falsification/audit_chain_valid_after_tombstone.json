@@ -1,0 +1,8 @@
+{
+  "observationId": "audit_chain_valid_after_tombstone",
+  "mutation": "PostgresAuditStore.tombstone() stopped emptying the payload and set only tombstoned_at, so the erasure marker was written without the erasure.",
+  "observedFalse": true,
+  "at": "2026-07-26T21:15:00.000Z",
+  "commit": "a0a242511dec2d47d99c4ffdf512fa6fccf3d008",
+  "performedBy": "manual mutation during the audit observer milestone; the database refused the update and the evidence record flipped to passed:false"
+}

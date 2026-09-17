@@ -1,0 +1,50 @@
+# Deployment readiness.
+#
+# Run before any deployment, and manually whenever an operator wants to know
+# where a target environment stands. Unlike ci.yml this one needs real
+# credentials, which is why it is dispatch-only and never runs on a push: a
+# pipeline that demands production secrets on every contribution goes red for
+# everyone who does not have them, and a red pipeline stops being read.
+#
+# It fails on the first blocking prerequisite. That is the point — the failure
+# is the deliverable, and it names what is missing and who supplies it.
+name: Deployment readiness
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        type: choice
+        options: [staging, production]
+
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # Structural first. If the model is defective, nothing it reports about
+      # the environment is worth reading.
+      - name: Readiness engine (structural)
+        run: pnpm check:readiness:structural
+
+      - name: Deployment readiness
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          EMAIL_PROVIDER_URL: ${{ secrets.EMAIL_PROVIDER_URL }}
+          SMS_PROVIDER_URL: ${{ secrets.SMS_PROVIDER_URL }}
+        run: pnpm check:readiness:deployment

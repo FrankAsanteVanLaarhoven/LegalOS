@@ -1,0 +1,8 @@
+{
+  "observationId": "switch_resists_cross_site_requests_production",
+  "mutation": "F1. The `maySwitchFrom` call was short-circuited in switchOrganisationCore (`if (false)`), removing invocation authorisation.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "performedBy": "executed during obligation 2. 'an invalid invocation is refused before the session or the database is touched' and 'a valid session does not compensate for an invalid origin' both went false: cross-origin, missing-Origin and GET invocations proceeded to session resolution and beyond. Restored."
+}

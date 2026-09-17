@@ -1,0 +1,8 @@
+{
+  "observationId": "switch_refusals_do_not_enumerate_production",
+  "mutation": "F5. The target refusal was changed to return a distinct message when the identifier was a well-formed uuid and the account held any membership, separating 'not a member' from 'no such organisation'.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "performedBy": "executed during obligation 2. 'every unavailable target is refused identically' went false: the four refusals were no longer deeply equal, so a caller could submit identifiers and map which organisations exist. Restored."
+}

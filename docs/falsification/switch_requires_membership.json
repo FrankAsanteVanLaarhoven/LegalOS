@@ -1,0 +1,8 @@
+{
+  "observationId": "switch_requires_membership",
+  "mutation": "M6. `maySwitchTo` was changed to return the first membership regardless of the requested target.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "bfd20b1d7fc734f9f1efd08b3d7f74e2d0e14acc",
+  "performedBy": "executed during Phase 4A'. 'switching requires a current membership of the target' and 'every unavailable switch target is refused identically' both went false: any submitted organisation id was accepted as a switch target. Restored."
+}

@@ -1,0 +1,8 @@
+{
+  "checkId": "evidence_verification_dimensions_are_distinct",
+  "passed": true,
+  "at": "2026-07-27T14:06:14.458Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/evidence-repository.test.ts",
+  "demonstrates": "a professional acceptance could not be recorded before the digest had been verified, and could not be recorded by a caseworker; digest_verified, source_verified and professionally_verified are separate states and none stands in for another"
+}

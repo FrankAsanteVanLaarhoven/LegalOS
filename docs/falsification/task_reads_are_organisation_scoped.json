@@ -1,0 +1,8 @@
+{
+  "observationId": "task_reads_are_organisation_scoped",
+  "mutation": "The organisation comparison was deleted from TaskRepository#resolve, leaving `if (!row)` in place of `if (!row || row.organization_id !== context.organisationId)`.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "50c5b794fbe063b33b934a2dda9632bd73834ff6",
+  "performedBy": "manual mutation during Phase 3C. Only 'a person acting for two organisations carries nothing between them' went false; every other cross-tenancy test stayed green, matching the deadline and review results. Restoring the comparison returned it to true."
+}

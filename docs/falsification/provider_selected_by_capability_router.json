@@ -1,0 +1,8 @@
+{
+  "observationId": "provider_selected_by_capability_router",
+  "mutation": "ExecutionRunner.execute() took the first configured provider instead of consulting the routing table, and stopped checking the requested capability against the agent's declared list \u2014 the state the code was in before this milestone, where a route named its own provider and model.",
+  "observedFalse": true,
+  "at": "2026-07-27T04:10:00.000Z",
+  "commit": "953bc2365dfcdc6ab4d3128dc21810eeed80db80",
+  "performedBy": "manual mutation during the capability router milestone; the undeclared-capability assertion failed and the evidence flipped to passed:false. Reverted and the file confirmed identical."
+}

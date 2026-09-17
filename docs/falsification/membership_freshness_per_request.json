@@ -1,0 +1,8 @@
+{
+  "observationId": "membership_freshness_per_request",
+  "mutation": "M5. Request-scoped membership loading was replaced with a process-global Map keyed on account id.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "bfd20b1d7fc734f9f1efd08b3d7f74e2d0e14acc",
+  "performedBy": "executed during Phase 4A'. 'a revoked membership stops resolving on the very next request' and 'membership state is read per resolution and never shared between accounts' both went false: a membership revoked between requests kept resolving from the cache. Restored."
+}

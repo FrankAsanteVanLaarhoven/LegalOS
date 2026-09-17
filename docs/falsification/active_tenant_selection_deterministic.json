@@ -1,0 +1,8 @@
+{
+  "observationId": "active_tenant_selection_deterministic",
+  "mutation": "M4. The multi-membership branch was changed to return the first organisation instead of selection_required.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "bfd20b1d7fc734f9f1efd08b3d7f74e2d0e14acc",
+  "performedBy": "executed during Phase 4A'. 'selection does not depend on membership row order' and 'a forged cookie signature cannot authorise a tenancy' both went false: a dual-membership account silently acted in whichever tenancy the query returned first. Restored."
+}

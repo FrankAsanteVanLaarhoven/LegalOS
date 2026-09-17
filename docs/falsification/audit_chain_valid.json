@@ -1,0 +1,8 @@
+{
+  "observationId": "audit_chain_valid",
+  "mutation": "PostgresAuditStore.verify() returned {valid:true} unconditionally, the failure mode where a chain is written and never actually recomputed.",
+  "observedFalse": true,
+  "at": "2026-07-26T21:15:00.000Z",
+  "commit": "a0a242511dec2d47d99c4ffdf512fa6fccf3d008",
+  "performedBy": "manual mutation during the audit observer milestone; the tamper-detection assertion failed and the evidence record flipped to passed:false"
+}

@@ -1,0 +1,164 @@
+{
+  "commit": "3826a343e6416bc5e18cf6036f223a13dffde23b",
+  "commitDate": "2026-07-26T13:47:16+01:00",
+  "describe": "v0.1.0-21-g3826a34",
+  "capabilities": {
+    "total": 11,
+    "implemented": 7,
+    "operational": 2,
+    "verified": 2,
+    "certified": 0
+  },
+  "evidence": {
+    "unitTested": 7,
+    "integrationTested": 0,
+    "benchmarkValidated": 0,
+    "externallyAudited": 0
+  },
+  "knownOverclaims": 0,
+  "belowTarget": 11,
+  "unmeasuredChecks": 7,
+  "unmeasured": [
+    "verification/benched",
+    "verification/audited",
+    "audit/durable",
+    "audit/telemetry",
+    "rule_engine/benched",
+    "research_retrieval/corpus",
+    "benchmark/run"
+  ],
+  "sources": {
+    "verified": 0,
+    "corpusChunks": null
+  },
+  "observations": {
+    "verified_source_count": {
+      "value": 0,
+      "source": "registry",
+      "method": "count of verificationStatus: \"verified\" in packages/knowledge/src/sources.uk.ts"
+    },
+    "source_chunk_count": {
+      "value": null,
+      "source": "unavailable",
+      "method": "database query against source_chunks"
+    },
+    "auth_middleware_present": {
+      "value": false,
+      "source": "filesystem",
+      "method": "existence of apps/web/src/middleware.ts"
+    },
+    "auth_package_lines": {
+      "value": 7,
+      "source": "filesystem",
+      "method": "non-comment source lines in packages/auth/src"
+    },
+    "rate_limiting_present": {
+      "value": false,
+      "source": "filesystem",
+      "method": "rate-limit reference in apps/web/src/app/api/chat/route.ts"
+    },
+    "workflow_lines": {
+      "value": 8,
+      "source": "filesystem",
+      "method": "non-comment source lines in packages/workflows/src"
+    },
+    "ingestion_lines": {
+      "value": 1,
+      "source": "filesystem",
+      "method": "non-comment source lines in services/ingestion/src"
+    },
+    "graph_tables_present": {
+      "value": false,
+      "source": "filesystem",
+      "method": "CREATE TABLE graph_nodes/graph_edges in packages/database/migrations"
+    },
+    "rule_locators_recorded": {
+      "value": false,
+      "source": "filesystem",
+      "method": "absence of `locator: null` in packages/rules/src/workflows"
+    },
+    "bench_pass_rate": {
+      "value": null,
+      "source": "unavailable",
+      "method": "read a benchmark report"
+    },
+    "external_audit_record": {
+      "value": null,
+      "source": "unavailable",
+      "method": "look for a signed external audit artefact"
+    },
+    "production_telemetry": {
+      "value": null,
+      "source": "unavailable",
+      "method": "query usage telemetry"
+    }
+  },
+  "blocked": [
+    {
+      "capability": "verification",
+      "implementation": "verified",
+      "evidence": "unit_tests",
+      "nextAction": "Implement session authentication and gate the API routes."
+    },
+    {
+      "capability": "audit",
+      "implementation": "implemented",
+      "evidence": "unit_tests",
+      "nextAction": "Instrument this: database query against source_chunks currently yields nothing."
+    },
+    {
+      "capability": "rule_engine",
+      "implementation": "verified",
+      "evidence": "unit_tests",
+      "nextAction": "Record the paragraph locator for each requirement against the published rule text."
+    },
+    {
+      "capability": "knowledge_sources",
+      "implementation": "implemented",
+      "evidence": "unit_tests",
+      "nextAction": "Retrieve each source, record its version and retrieval date, and store its checksum."
+    },
+    {
+      "capability": "research_retrieval",
+      "implementation": "prototype",
+      "evidence": "none",
+      "nextAction": "Build the ingestion service: fetch, parse, version and checksum official sources."
+    },
+    {
+      "capability": "evidence_graph",
+      "implementation": "implemented",
+      "evidence": "unit_tests",
+      "nextAction": "Add graph_nodes and graph_edges migrations and persist the graph."
+    },
+    {
+      "capability": "human_review",
+      "implementation": "implemented",
+      "evidence": "unit_tests",
+      "nextAction": "Implement authentication so approvals bind to a verified identity."
+    },
+    {
+      "capability": "authentication",
+      "implementation": "prototype",
+      "evidence": "none",
+      "nextAction": "Implement sessions, authorisation and tenant isolation."
+    },
+    {
+      "capability": "workflow_engine",
+      "implementation": "prototype",
+      "evidence": "none",
+      "nextAction": "Implement task, deadline and bundle generation from case state."
+    },
+    {
+      "capability": "timeline_reconstruction",
+      "implementation": "prototype",
+      "evidence": "none",
+      "nextAction": "Implement chronology extraction from uploaded evidence."
+    },
+    {
+      "capability": "benchmark",
+      "implementation": "implemented",
+      "evidence": "unit_tests",
+      "nextAction": "Instrument this: read a benchmark report currently yields nothing."
+    }
+  ]
+}

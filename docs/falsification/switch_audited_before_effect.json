@@ -1,0 +1,8 @@
+{
+  "observationId": "switch_audited_before_effect",
+  "mutation": "M6b/ordering. The switch action's order is verify -> audit -> cookie. Inverting it so the cookie is written first was assessed against the ordering the action implements.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "bfd20b1d7fc734f9f1efd08b3d7f74e2d0e14acc",
+  "performedBy": "executed during Phase 4A' as a reasoning check against the committed order, not as a passing mutation of apps/web (which imports next/headers and is unreachable from the integration suite). The audit-ordering test proves the committed sequence: a malformed append is refused, the chain still verifies, and the entry carries previous and target organisation ids with no names, token or cookie value. LIMITATION: the cookie-write half of this ordering is NOT proved by an executed mutation, because the action is not reachable from the integration harness. Recorded rather than claimed."
+}

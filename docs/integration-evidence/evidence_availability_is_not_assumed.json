@@ -1,0 +1,8 @@
+{
+  "checkId": "evidence_availability_is_not_assumed",
+  "passed": true,
+  "at": "2026-07-27T14:06:14.454Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/evidence-repository.test.ts",
+  "demonstrates": "a database failure after the bytes were written removed the object and left no row claiming a file; an unconfigured storage provider refused rather than recording an available item; a corrected file became a new version with the original preserved and undeletable"
+}

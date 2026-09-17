@@ -1,0 +1,8 @@
+{
+  "checkId": "evidence_satisfies_ev005_only_when_real",
+  "passed": true,
+  "at": "2026-07-27T14:06:14.476Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/evidence-repository.test.ts",
+  "demonstrates": "EV-005 reported violated for an assertion citing an evidence row whose file was never stored, for one citing another matter's document, and for one whose evidence had been marked unavailable; it reported satisfied only once the cited item was same-case, provenanced, available and located; a blank locator was refused by the database itself"
+}

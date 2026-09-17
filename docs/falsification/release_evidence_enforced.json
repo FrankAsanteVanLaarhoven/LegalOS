@@ -1,0 +1,8 @@
+{
+  "observationId": "release_evidence_enforced",
+  "mutation": "recordRelease() wrote the record even when defects were found, so a release with a failed readiness result, no migration set or failing health checks was recorded as successful \u2014 the state where a green pipeline stands in for verified evidence.",
+  "observedFalse": true,
+  "at": "2026-07-27T07:40:00.000Z",
+  "commit": "0fce808604ef9cf7d98092362f72da777a67bbe3",
+  "performedBy": "manual mutation during the deployment evidence milestone; the release-evidence assertion failed and the record flipped to passed:false. Reverted and the file confirmed identical."
+}

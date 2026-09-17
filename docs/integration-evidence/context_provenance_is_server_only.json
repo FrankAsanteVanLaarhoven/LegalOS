@@ -1,0 +1,8 @@
+{
+  "checkId": "context_provenance_is_server_only",
+  "passed": true,
+  "at": "2026-07-27T14:06:12.490Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/authentication/tenant-resolution.test.ts",
+  "demonstrates": "a resolution carrying a malicious payload of actorId, accountId, organisationId, role, permissions and membershipId returned the account from the session, the organisation from the signed selection validated against the database, and the role from the real membership row"
+}

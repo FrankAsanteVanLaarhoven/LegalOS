@@ -1,0 +1,8 @@
+{
+  "observationId": "graph_reads_are_organisation_scoped",
+  "mutation": "The organisation comparison was deleted from GraphRepository#resolve, leaving `if (!row)` in place of `if (!row || row.organization_id !== context.organisationId)`.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "313b21e480646ecd42471320c472298f97e12766",
+  "performedBy": "manual mutation during Phase 3D. Only 'a person acting for two organisations carries nothing between them' went false, matching deadlines, reviews and tasks. Restoring the comparison returned it to true."
+}

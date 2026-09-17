@@ -1,0 +1,8 @@
+{
+  "observationId": "switch_requires_membership_production",
+  "mutation": "F3. `maySwitchTo` was replaced with an inline `memberships.find()` on organisation id alone — the exact duplication this obligation removed. F2 separately replaced the fresh membership load with a process-global snapshot, and F6 let a submitted actorId populate the audit actor.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "performedBy": "executed during obligation 2, three mutations against one guarantee. F2 turned 'a revocation landing between invocation and read is visible', 'an outcome-only assertion cannot tell the two cores apart' and 'switching to the organisation already active is an idempotent no-op' false. F6 turned 'no submitted identity field reaches the audit or the authorisation' false. F3 produced NO behavioural failure and that is the finding: on the production path maySwitchTo's two extra checks are both absorbed upstream — the loader filters removed_at IS NULL in SQL, and .find() returns undefined for a malformed id anyway. Behaviour cannot distinguish the rule from its copy, which is precisely how the action drifted originally. A structural guard was added asserting the core imports and calls both rules and that neither core nor adapter contains an inline lookup or origin comparison; with it, F3 turns 'the core calls the canonical rules rather than restating them' false. The guard itself first fired on the word .find() inside a comment, so it strips comments before matching."
+}

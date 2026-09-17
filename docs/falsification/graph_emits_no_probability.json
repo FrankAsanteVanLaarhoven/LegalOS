@@ -1,0 +1,8 @@
+{
+  "observationId": "graph_emits_no_probability",
+  "mutation": "A `confidence` field was added to the emitted edge in GraphRepository#toEdge, computed as live assertions divided by total assertions — the plausible, well-meant version of the field somebody would add to be helpful.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "313b21e480646ecd42471320c472298f97e12766",
+  "performedBy": "manual mutation during Phase 3D. The recursive abstention scan reported it twice — once for the field name and once for the numeric value — and 'no numeric judgement or score-like field is emitted anywhere in the graph' went false. GR-G3 is the only guarantee in the registry about what is never emitted, and this is the shape of the change that would break it: not malicious, just helpful."
+}

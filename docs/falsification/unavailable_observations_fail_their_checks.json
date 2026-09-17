@@ -1,0 +1,8 @@
+{
+  "observationId": "unavailable_observations_fail_their_checks",
+  "mutation": "Replaced the predicate isTrue(\"external_audit_record\") with () => true in packages/capabilities/src/platform.ts, so a check passed while the observation it reads could not be measured.",
+  "observedFalse": true,
+  "at": "2026-07-26T19:20:00.000Z",
+  "commit": "d9a70026472ecd3082ec95459b8845ca5ccc6a86",
+  "performedBy": "manual mutation during the invariant registry milestone; the observation reported false and named the check"
+}

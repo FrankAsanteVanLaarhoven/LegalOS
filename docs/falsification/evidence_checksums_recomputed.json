@@ -1,0 +1,8 @@
+{
+  "observationId": "evidence_checksums_recomputed",
+  "mutation": "verifyIntegrity in packages/evidence/src/ingest.ts stopped recomputing the digest and returned document.sha256.length === 64 instead \u2014 the stored-but-never-checked failure mode EV-002 exists to prevent.",
+  "observedFalse": true,
+  "at": "2026-07-26T20:05:00.000Z",
+  "commit": "37dff843bd9226ec0ad5fa804a0874a008e83b8b",
+  "performedBy": "manual mutation during the ingestion observer milestone; the flipped-byte and truncation assertions failed and the emitted evidence record flipped to passed:false. The mutation was reverted and the file confirmed unchanged."
+}

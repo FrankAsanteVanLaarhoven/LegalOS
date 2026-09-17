@@ -1,0 +1,8 @@
+{
+  "observationId": "execution_replay_succeeds",
+  "mutation": "PostgresExecutionStore.replay() stopped recomputing hashes from the stored artefacts and compared each stored hash to itself \u2014 the failure mode where a replay passes happily after both the body and its hash have been edited.",
+  "observedFalse": true,
+  "at": "2026-07-26T22:10:00.000Z",
+  "commit": "3498755731909d7985c71d31c5cd976b12f6a32e",
+  "performedBy": "manual mutation during the execution reproducibility milestone; the altered-template, altered-snapshot and reordering assertions all failed and the evidence record flipped to passed:false. Reverted and the file confirmed identical."
+}

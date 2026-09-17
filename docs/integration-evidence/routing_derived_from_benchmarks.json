@@ -1,0 +1,8 @@
+{
+  "checkId": "routing_derived_from_benchmarks",
+  "passed": true,
+  "at": "2026-07-27T08:00:05.964Z",
+  "commit": "3a615f05de9dd15d900056ae094b247147b58ecc",
+  "producedBy": "packages/integration/test/routing.test.ts",
+  "demonstrates": "a provider is preferred over another only by citing current benchmark evidence at adequate sample size and repeats; a sole configured provider claims no ranking; and expired, superseded, inadequate or irrelevant evidence causes routing to refuse rather than pick silently"
+}

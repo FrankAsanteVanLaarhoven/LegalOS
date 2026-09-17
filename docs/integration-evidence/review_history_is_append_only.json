@@ -1,0 +1,8 @@
+{
+  "checkId": "review_history_is_append_only",
+  "passed": true,
+  "at": "2026-07-27T14:06:16.594Z",
+  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
+  "producedBy": "packages/integration/test/domain/review-repository.test.ts",
+  "demonstrates": "review_decisions and review_events each refused UPDATE, DELETE and TRUNCATE; a request carrying history could not be deleted and neither could its case; the repository source contains no ALTER TABLE, DISABLE TRIGGER, TRUNCATE or trigger-bypass statement"
+}

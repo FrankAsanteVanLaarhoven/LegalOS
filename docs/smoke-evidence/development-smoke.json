@@ -1,0 +1,392 @@
+{
+  "checkId": "development_smoke",
+  "verdict": "passed",
+  "at": "2026-07-27T15:26:25.001Z",
+  "commit": "095466f1ce0ceeaeb92b3c4d13bfeb65bd3bda66",
+  "durationMs": 4745,
+  "environment": {
+    "mode": "development",
+    "node": "22.22.2",
+    "database": "postgres://localhost:5433/legalos_test",
+    "signingKey": "sha256:ff3031343077cdee"
+  },
+  "server": {
+    "command": "next dev --port 42381 --hostname 127.0.0.1",
+    "port": 42381,
+    "pid": 487398,
+    "startupMs": 1056
+  },
+  "preflight": [
+    {
+      "name": "runtime",
+      "passed": true,
+      "detail": "node 22.22.2"
+    },
+    {
+      "name": "dependencies",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "database identity",
+      "passed": true,
+      "detail": "postgres://localhost:5433/legalos_test"
+    },
+    {
+      "name": "schema",
+      "passed": true,
+      "detail": "6 required tables present"
+    },
+    {
+      "name": "no production credential required",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "no stale smoke server",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "port",
+      "passed": true,
+      "detail": "42381"
+    }
+  ],
+  "routesExercised": [
+    "/",
+    "/api/health",
+    "/api/analyze",
+    "/api/dev/identity",
+    "/api/auth/start",
+    "/api/auth/dev-session",
+    "/workspace"
+  ],
+  "sessionSeeding": {
+    "strategy": "canonical-persistence",
+    "why": "the existing /api/auth/dev-session route creates a pending_recovery account with no membership, and the schema constraint active_accounts_can_be_recovered forbids promoting it, so it cannot resolve a tenancy",
+    "tokensIssuedBy": "@legalos/auth issueToken/hashToken",
+    "cookieSignedBy": "@legalos/auth signSelection"
+  },
+  "caseCount": 37,
+  "mandatoryCount": 36,
+  "failedCount": 0,
+  "cases": [
+    {
+      "name": "server reachable",
+      "passed": true,
+      "mandatory": true,
+      "detail": "GET /api/health → 200"
+    },
+    {
+      "name": "public route serves",
+      "passed": true,
+      "mandatory": true,
+      "detail": "GET / → 200"
+    },
+    {
+      "name": "authenticated API refuses with no session",
+      "passed": true,
+      "mandatory": true,
+      "detail": "POST /api/analyze → 401"
+    },
+    {
+      "name": "refusal exposes nothing internal",
+      "passed": true,
+      "mandatory": true,
+      "detail": "the refusal body contained an internal detail"
+    },
+    {
+      "name": "API refusal is JSON",
+      "passed": true,
+      "mandatory": true,
+      "detail": "content-type application/json"
+    },
+    {
+      "name": "malformed session cookie refused",
+      "passed": true,
+      "mandatory": true,
+      "detail": "POST /api/analyze (malformed) → 401"
+    },
+    {
+      "name": "unknown session refused",
+      "passed": true,
+      "mandatory": true,
+      "detail": "POST /api/analyze (unknown) → 401"
+    },
+    {
+      "name": "unknown-session refusal exposes nothing internal",
+      "passed": true,
+      "mandatory": true,
+      "detail": "leak"
+    },
+    {
+      "name": "an unknown session is refused by the route, not only by the edge",
+      "passed": true,
+      "mandatory": true,
+      "detail": "code=undefined — a middleware refusal, so the route was never reached"
+    },
+    {
+      "name": "protected page redirects when unauthenticated",
+      "passed": true,
+      "mandatory": true,
+      "detail": "GET /workspace → 307"
+    },
+    {
+      "name": "valid session authenticates over HTTP",
+      "passed": true,
+      "mandatory": true,
+      "detail": "GET /api/dev/identity → 200"
+    },
+    {
+      "name": "both entry points authenticate the same session",
+      "passed": true,
+      "mandatory": true,
+      "detail": "requireSession=true resolveServerSession=true"
+    },
+    {
+      "name": "both entry points resolve the same account",
+      "passed": true,
+      "mandatory": true,
+      "detail": "eafe6198349531a2 vs eafe6198349531a2"
+    },
+    {
+      "name": "a real API route authenticates the session",
+      "passed": true,
+      "mandatory": true,
+      "detail": "POST /api/analyze (valid session) → 400, expected anything but 401"
+    },
+    {
+      "name": "submitted identity headers do not alter the result",
+      "passed": true,
+      "mandatory": true,
+      "detail": "a submitted header changed the resolved identity"
+    },
+    {
+      "name": "duplicate session cookies resolve last-wins at runtime",
+      "passed": true,
+      "mandatory": true,
+      "detail": "unknown-then-valid → 200, expected 200 if last wins"
+    },
+    {
+      "name": "both entry points select the same duplicate cookie",
+      "passed": true,
+      "mandatory": true,
+      "detail": "requireSession=eafe6198349531a2 resolveServerSession=eafe6198349531a2"
+    },
+    {
+      "name": "duplicate session cookies are order-dependent in the documented direction",
+      "passed": true,
+      "mandatory": true,
+      "detail": "valid-then-unknown → 401, expected 401 if last wins"
+    },
+    {
+      "name": "duplicate active-organisation cookies resolve last-wins at runtime",
+      "passed": true,
+      "mandatory": true,
+      "detail": "alpha-then-beta resolved 547ca9ed9e4fdb80, expected beta 547ca9ed9e4fdb80"
+    },
+    {
+      "name": "expired session refused at runtime",
+      "passed": true,
+      "mandatory": true,
+      "detail": "→ 401"
+    },
+    {
+      "name": "no preference with two memberships requires a selection",
+      "passed": true,
+      "mandatory": true,
+      "detail": "tenancy=selection_required, expected selection_required"
+    },
+    {
+      "name": "a valid preference resolves that organisation",
+      "passed": true,
+      "mandatory": true,
+      "detail": "resolved 547ca9ed9e4fdb80"
+    },
+    {
+      "name": "inaccessible and nonexistent organisations are refused identically",
+      "passed": true,
+      "mandatory": true,
+      "detail": "invalid_active_organisation vs invalid_active_organisation"
+    },
+    {
+      "name": "an unsigned preference is ignored",
+      "passed": true,
+      "mandatory": true,
+      "detail": "tenancy=selection_required"
+    },
+    {
+      "name": "a revoked membership stops being effective on the next request",
+      "passed": true,
+      "mandatory": true,
+      "detail": "tenancy=invalid_active_organisation"
+    },
+    {
+      "name": "sign-in without a delivery provider responds safely and boundedly",
+      "passed": true,
+      "mandatory": true,
+      "detail": "POST /api/auth/start → 200"
+    },
+    {
+      "name": "sign-in issues no session cookie",
+      "passed": true,
+      "mandatory": true,
+      "detail": "sign-in initiation set a session cookie"
+    },
+    {
+      "name": "no challenge table exists to write to",
+      "passed": true,
+      "mandatory": false,
+      "detail": ""
+    },
+    {
+      "name": "the development session route issues a session in development",
+      "passed": true,
+      "mandatory": true,
+      "detail": "POST /api/auth/dev-session → 200"
+    },
+    {
+      "name": "the development session route sets an HttpOnly session cookie",
+      "passed": true,
+      "mandatory": true,
+      "detail": "Set-Cookie present"
+    },
+    {
+      "name": "a cookie of the form the switch adapter emits is honoured by the next request",
+      "passed": true,
+      "mandatory": true,
+      "detail": "resolved 547ca9ed9e4fdb80"
+    },
+    {
+      "name": "a refusal sets no cookie",
+      "passed": true,
+      "mandatory": true,
+      "detail": "0 Set-Cookie header(s) on a refusal"
+    },
+    {
+      "name": "no switch audit was written by refused requests",
+      "passed": true,
+      "mandatory": true,
+      "detail": "0 switch audit row(s) exist, expected 0 since no switch was invoked"
+    },
+    {
+      "name": "the seeded sessions exist in the database",
+      "passed": true,
+      "mandatory": true,
+      "detail": "2 rows"
+    },
+    {
+      "name": "the seeded memberships exist",
+      "passed": true,
+      "mandatory": true,
+      "detail": "2 rows"
+    },
+    {
+      "name": "the server process terminated",
+      "passed": true,
+      "mandatory": true,
+      "detail": "alive=false after SIGTERM"
+    },
+    {
+      "name": "smoke data was removed",
+      "passed": true,
+      "mandatory": true,
+      "detail": "leftover=0"
+    }
+  ],
+  "observations": {
+    "malformedRefusedBy": "middleware",
+    "refusalLayers": {
+      "missingCookie": "middleware",
+      "malformedCookie": "middleware",
+      "unknownSession": "route"
+    },
+    "workspaceRedirect": "/sign-in?next=%2Fworkspace",
+    "entryPoints": {
+      "requireSession": {
+        "authenticated": true,
+        "accountId": "eafe6198349531a2"
+      },
+      "resolveServerSession": {
+        "authenticated": true,
+        "accountId": "eafe6198349531a2",
+        "organisationId": null,
+        "membershipId": null,
+        "role": null,
+        "membershipCount": null,
+        "tenancy": "selection_required"
+      }
+    },
+    "analyzeAuthenticated": 400,
+    "duplicateCookies": {
+      "rawHeaderForm": "legalos_session=<a>; legalos_session=<b>",
+      "sessionUnknownThenValid": 200,
+      "sessionValidThenUnknown": 401,
+      "organisationAlphaThenBeta": "547ca9ed9e4fdb80",
+      "effectiveOrganisationIsLast": true,
+      "frameworkAgreesWithHarness": true
+    },
+    "expiry": {
+      "valid": 200,
+      "expired": 401,
+      "note": "the live smoke observes valid versus expired only; the exact-at-expiry boundary is proved under a controlled clock in packages/integration/test/authentication/session-equivalence.test.ts"
+    },
+    "activeOrganisation": {
+      "membershipCount": 2,
+      "noPreference": "selection_required",
+      "validPreference": "547ca9ed9e4fdb80",
+      "inaccessible": "invalid_active_organisation",
+      "nonexistent": "invalid_active_organisation",
+      "unsigned": "selection_required",
+      "revoked": "invalid_active_organisation"
+    },
+    "deliveryProvider": {
+      "status": 200,
+      "delivered": false,
+      "developmentCodeReturned": true,
+      "productionBehaviour": "503, keyed off NODE_ENV in the route; unreachable from a development smoke",
+      "bodyIsSafe": true,
+      "setNoSessionCookie": true,
+      "createdNothing": true
+    },
+    "switchPath": {
+      "liveInvocation": false,
+      "reason": "no component renders the switch server action, and invoking one requires the Next-Action protocol and a build-time action id. The live smoke proves the downstream cookie effect; the adapter itself is proved by switch-production.test.ts and set-cookie-observation.test.ts",
+      "downstreamEffective": true
+    },
+    "headers": {
+      "identityCacheControl": null,
+      "identityContentType": "application/json",
+      "refusalContentType": "application/json",
+      "workspaceLocation": "/sign-in?next=%2Fworkspace",
+      "setCookieOnRefusal": 0
+    },
+    "audit": {
+      "switchEntries": 0
+    }
+  },
+  "cleanup": {
+    "ok": true,
+    "removed": {
+      "sessions": 2,
+      "memberships": 2,
+      "auditRetained": 0,
+      "workspaces": 3,
+      "organisations": 3,
+      "accounts": 1
+    },
+    "leftover": 0
+  },
+  "termination": {
+    "requested": true,
+    "signal": "SIGTERM",
+    "alive": false,
+    "exitCode": null
+  },
+  "falsifications": [
+    "development_smoke_fails_closed"
+  ],
+  "error": null,
+  "serverLog": []
+}

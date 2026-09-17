@@ -1,0 +1,8 @@
+{
+  "observationId": "context_provenance_is_server_only",
+  "mutation": "M7. `resolveTenant` was changed to accept an injected organisationId from its dependency object, ahead of the signed selection.",
+  "observedFalse": true,
+  "at": "2026-07-27T00:00:00.000Z",
+  "commit": "bfd20b1d7fc734f9f1efd08b3d7f74e2d0e14acc",
+  "performedBy": "executed during Phase 4A'. 'nothing a client could submit reaches the resolved tenancy' went false: a caller naming an organisation received it as their active tenancy without any membership read. Restored."
+}

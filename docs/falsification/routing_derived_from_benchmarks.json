@@ -1,0 +1,8 @@
+{
+  "observationId": "routing_derived_from_benchmarks",
+  "mutation": "route() returned the first configured provider when no benchmark evidence covered the capability, instead of refusing \u2014 the hand-written-preference behaviour this subsystem replaced, where a silent pick is indistinguishable from a measured decision. Separately, route() ignored the environment digest, so evidence produced against a different prompt template, guardrail version or model id went on ranking providers.",
+  "observedFalse": true,
+  "at": "2026-07-27T05:20:00.000Z",
+  "commit": "3ace58606d7402dede5bd460efbc2715fbb825ad",
+  "performedBy": "manual mutation during the benchmark-derived routing milestone; the unsupported-choice assertion failed and the evidence flipped to passed:false. Reverted and the file confirmed identical."
+}
