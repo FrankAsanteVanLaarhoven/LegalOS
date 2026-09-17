@@ -101,6 +101,8 @@ const nextConfig: NextConfig = {
   distDir,
   transpilePackages: WORKSPACE_PACKAGES,
   outputFileTracingRoot: repoRoot,
+  devIndicators: false,
+  poweredByHeader: false,
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
