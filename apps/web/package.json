@@ -7,7 +7,8 @@
   },
   "scripts": {
     "dev": "next dev --webpack --port 3011",
-    "build": "next build --webpack",
+    "build": "next build --webpack && mkdir -p apps/web && ln -sfn ../.next apps/web/.next",
+    "postbuild": "mkdir -p apps/web && ln -sfn ../.next apps/web/.next",
     "start": "next start --port 3011",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
