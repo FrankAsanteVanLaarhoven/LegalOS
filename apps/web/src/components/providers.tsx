@@ -4,6 +4,7 @@ import { AppProvider } from "@/lib/app-context";
 import { DisclaimerBanner } from "@/components/landing/disclaimer-banner";
 import { WorldUtilsPanel } from "@/components/shell/world-utils";
 import { VoiceAgentPanel } from "@/components/shell/voice-agent";
+import { CookieConsent } from "@/components/compliance/cookie-consent";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -17,6 +18,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       */}
       <DisclaimerBanner />
       {children}
+      <CookieConsent />
       <WorldUtilsPanel />
       <VoiceAgentPanel />
     </AppProvider>

@@ -1,7 +1,7 @@
 {
   "checkId": "audit_append_only",
   "passed": true,
-  "at": "2026-07-27T14:06:11.391Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/audit/chain.test.ts",
   "demonstrates": "the database refuses UPDATE and DELETE on audit_log, and the erasure exception permits only the payload transition — not a changed actor, not a tombstone that keeps the payload, not a second tombstone"

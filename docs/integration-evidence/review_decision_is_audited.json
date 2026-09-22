@@ -1,7 +1,7 @@
 {
   "checkId": "review_decision_is_audited",
   "passed": true,
-  "at": "2026-07-27T14:06:16.598Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/domain/review-repository.test.ts",
   "demonstrates": "a valid decision wrote one immutable decision, one event and one audit entry naming the role and registration, and the audit chain verified afterwards; inducing a failure on the decision insert, the event insert, the audit insert and the status update in turn each left the request open with nothing written"

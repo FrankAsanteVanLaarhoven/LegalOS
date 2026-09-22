@@ -103,8 +103,8 @@ LegalOS measures its operational reality. Recomputed by `pnpm check:docs` on eve
 | Packages                        | 33    |
 | Migrations                      | 17    |
 | Invariants                      | 50    |
-| Invariants satisfied            | 27    |
-| Invariants awaiting an observer | 16    |
+| Invariants satisfied            | 28    |
+| Invariants awaiting an observer | 17    |
 | Falsification records           | 47    |
 | Readiness checks                | 14    |
 | Readiness checks required       | 9     |
@@ -150,13 +150,16 @@ LegalOS is enterprise deployment-ready for cloud platforms and Vercel.
 
 ### Deploying on Vercel
 
-The monorepo includes a pre-configured [`vercel.json`](vercel.json) at the repository root.
+The web application is configured for deployment on Vercel:
 
 1. Import **[FrankAsanteVanLaarhoven/LegalOS](https://github.com/FrankAsanteVanLaarhoven/LegalOS)** into your Vercel Dashboard.
-2. Keep the **Root Directory** as `./` (default).
-3. Configure Environment Variables (optional for demonstration mode):
-   * `DATABASE_URL`: PostgreSQL connection string (Neon, Supabase, Vercel Postgres, AWS RDS).
+2. In the **Configure Project** screen, set **Root Directory** to `apps/web` (click **Edit** next to Root Directory and select `apps/web`).
+   * Vercel will auto-detect **Next.js** and use [`apps/web/vercel.json`](apps/web/vercel.json).
+   * Monorepo workspace packages (`packages/*`) are automatically installed and transpiled.
+3. Configure Environment Variables (optional for demonstration mode, recommended for production):
+   * `DATABASE_URL`: PostgreSQL connection string (Neon, Supabase, Vercel Postgres, AWS RDS). If omitted, runs in offline/in-memory mode.
    * `XAI_API_KEY`: Model provider key (optional).
+   * `SESSION_SIGNING_KEY`: Secret HMAC key for session token signing in production.
 4. Click **Deploy**.
 
 ### Production Enterprise Hosting

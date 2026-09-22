@@ -607,16 +607,21 @@ export const PLATFORM_CAPABILITIES: readonly CapabilityDefinition[] = [
     description: "Chronology derived automatically from uploaded evidence.",
     declaredImplementation: "certified",
     declaredEvidence: "unit_tests",
-    checks: () => [
-      selfEvident(
-        "impl",
-        "Implemented",
-        "implementation",
-        "implemented",
-        false,
-        "Timelines are authored by hand; nothing derives them from documents.",
-        "Implement chronology extraction from uploaded evidence."
+    checks: (o) => [
+      fromObservation(
+        o,
+        {
+          id: "impl",
+          label: "Implemented",
+          dimension: "implementation",
+          gates: "implemented",
+          observationId: "timeline_reconstruction_implemented",
+          detail: "Timelines are authored by hand; nothing derives them from documents.",
+          nextAction: "Implement chronology extraction from uploaded evidence.",
+        },
+        isTrue("timeline_reconstruction_implemented")
       ),
+      selfEvident("tested", "Unit tested", "evidence", "unit_tests", true, "", ""),
     ],
   },
   {

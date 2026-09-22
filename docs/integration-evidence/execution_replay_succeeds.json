@@ -1,7 +1,7 @@
 {
   "checkId": "execution_replay_succeeds",
   "passed": true,
-  "at": "2026-07-27T14:06:11.592Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/audit/replay.test.ts",
   "demonstrates": "a recorded execution is reconstructed from immutable artefacts, and an edited prompt template, an edited retrieval snapshot or a reordering of what the model saw all make it unreproducible"

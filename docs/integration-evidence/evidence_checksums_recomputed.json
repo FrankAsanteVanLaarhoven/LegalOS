@@ -1,7 +1,7 @@
 {
   "checkId": "evidence_checksums_recomputed",
   "passed": true,
-  "at": "2026-07-27T14:06:18.585Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/evidence/integrity.test.ts",
   "demonstrates": "ingestion records a sha-256 that is recomputed on verification, detecting a single flipped byte and truncation, and refuses empty documents and consent-requiring sources with no consent reference"

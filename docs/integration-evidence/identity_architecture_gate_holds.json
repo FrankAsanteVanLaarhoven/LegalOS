@@ -1,7 +1,7 @@
 {
   "checkId": "identity_architecture_gate_holds",
   "passed": true,
-  "at": "2026-07-27T13:18:26.137Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "7c707b6479ae508477f32cdc9a316bb6dd988bbf",
   "producedBy": "scripts/check-identity-architecture.mjs and scripts/check-identity-selftest.mjs",
   "demonstrates": "the source gate parses every file under apps/web/src with the TypeScript compiler API and reports no violation of ST-A1, ST-A2, ST-A4, ST-A5, ST-A6, ST-A7 or ST-A8; the committed regression suite runs that same checker over 5 accepted fixtures producing zero violations and 8 rejected fixtures each producing its expected rule, file and line with a non-zero exit. Seven mutations written into the real apps/web tree were each detected and are recorded under identity_architecture_gate. The gate enforces defined construction and call patterns and is not information-flow analysis."

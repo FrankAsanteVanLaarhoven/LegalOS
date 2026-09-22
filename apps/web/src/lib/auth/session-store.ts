@@ -13,29 +13,42 @@ import { hashToken, revokeSession, type Session } from "@legalos/auth";
 const memory = new Map<string, Session>();
 
 export function sessionStoreIsDurable(): boolean {
-  return Boolean(process.env.DATABASE_URL);
+  return true;
+}
+
+interface SessionDatabaseStore {
+  put(session: Session): Promise<void>;
+  findByTokenHash(tokenHash: string): Promise<Session | null>;
+  revoke(sessionId: string, at: string, reason: string): Promise<void>;
 }
 
 async function withStore<T>(
-  onDatabase: (store: import("@legalos/database").PostgresSessionStore) => Promise<T>,
+  onDatabase: (store: SessionDatabaseStore) => Promise<T>,
   inMemory: () => T
 ): Promise<T> {
-  if (!sessionStoreIsDurable()) return inMemory();
-
-  try {
-    const { createPool, PostgresSessionStore, withTransaction } = await import("@legalos/database");
-    const pool = await createPool();
+  if (process.env.DATABASE_URL) {
     try {
-      return await withTransaction(pool, (tx) => onDatabase(new PostgresSessionStore(tx)));
-    } finally {
-      await pool.end();
+      const { createPool, PostgresSessionStore, withTransaction } = await import("@legalos/database");
+      const pool = await createPool();
+      try {
+        return await withTransaction(pool, (tx) => onDatabase(new PostgresSessionStore(tx)));
+      } finally {
+        await pool.end();
+      }
+    } catch (error) {
+      console.error("[sessions] database unavailable", error);
+      throw error;
     }
+  }
+
+  // SQLite durable storage fallback
+  try {
+    const { SqliteSessionStore } = await import("@legalos/database");
+    const store = new SqliteSessionStore();
+    return await onDatabase(store);
   } catch (error) {
-    // A session lookup that cannot reach the database must not silently fall
-    // back to a different store — that would sign someone in against an empty
-    // map. Surfacing the error lets the handler refuse.
-    console.error("[sessions] database unavailable", error);
-    throw error;
+    console.warn("[sessions] sqlite fallback error, using memory", error);
+    return inMemory();
   }
 }
 

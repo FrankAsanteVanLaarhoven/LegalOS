@@ -167,6 +167,10 @@ export interface ObserveOptions {
   readonly query?: (sql: string) => Promise<{ rows: Record<string, unknown>[] }>;
   /** Optional path to a benchmark report emitted by @legalos/bench. */
   readonly benchReportPath?: string;
+  /** Optional path to an external audit artefact. */
+  readonly auditArtefactPath?: string;
+  /** Optional path to a production telemetry pipeline report. */
+  readonly telemetryReportPath?: string;
 }
 
 async function exists(path: string): Promise<boolean> {
@@ -853,6 +857,24 @@ export async function observeSystem(options: ObserveOptions): Promise<Observatio
         )
   );
 
+  // ---- Timeline reconstruction ----
+  const timelinePath = join(repoRoot, "packages/evidence/src/timeline.ts");
+  const timelineHasImpl = await fileContains(timelinePath, /reconstructChronologyFromEvidence/);
+  add(
+    timelineHasImpl === null
+      ? unavailable(
+          "timeline_reconstruction_implemented",
+          "inspect packages/evidence/src/timeline.ts",
+          "timeline reconstruction module unreadable"
+        )
+      : observed(
+          "timeline_reconstruction_implemented",
+          timelineHasImpl,
+          "filesystem",
+          "reconstructChronologyFromEvidence in packages/evidence/src/timeline.ts"
+        )
+  );
+
   // ---- Representation: preparation layer ----
   const repLines = await sourceLines(join(repoRoot, "packages/representation/src"));
   add(
@@ -870,15 +892,118 @@ export async function observeSystem(options: ObserveOptions): Promise<Observatio
         )
   );
 
-  // ---- External audit and telemetry: nothing can observe these yet ----
-  add(
-    unavailable(
-      "external_audit_record",
-      "look for a signed external audit artefact",
-      "no audit artefact format is defined yet"
-    )
-  );
-  add(unavailable("production_telemetry", "query usage telemetry", "no telemetry pipeline exists"));
+  // ---- External audit record ----
+  const auditArtefactPath = options.auditArtefactPath;
+  if (auditArtefactPath) {
+    try {
+      const content = await readFile(auditArtefactPath, "utf8");
+      const audit = JSON.parse(content) as {
+        verdict?: { status?: string };
+        status?: string;
+      };
+      const passed = audit.verdict?.status === "passed" || audit.status === "passed";
+      add(
+        passed
+          ? observed(
+              "external_audit_record",
+              true,
+              "filesystem",
+              `signed external audit artefact at ${auditArtefactPath}`
+            )
+          : unavailable(
+              "external_audit_record",
+              `read ${auditArtefactPath}`,
+              `verdict status is "${audit.verdict?.status ?? audit.status ?? "unknown"}", expected "passed"`
+            )
+      );
+    } catch {
+      add(
+        unavailable(
+          "external_audit_record",
+          `read ${auditArtefactPath}`,
+          "audit artefact not readable"
+        )
+      );
+    }
+  } else {
+    add(
+      unavailable(
+        "external_audit_record",
+        "look for a signed external audit artefact",
+        "no audit artefact format is defined yet"
+      )
+    );
+  }
+
+  // ---- Production telemetry ----
+  const telemetryReportPath = options.telemetryReportPath;
+  if (telemetryReportPath) {
+    try {
+      const content = await readFile(telemetryReportPath, "utf8");
+      const telemetry = JSON.parse(content) as {
+        active?: boolean;
+        sampleCount?: number;
+      };
+      const active = Boolean(telemetry.active && (telemetry.sampleCount ?? 0) > 0);
+      add(
+        active
+          ? observed(
+              "production_telemetry",
+              true,
+              "benchmark",
+              `production telemetry pipeline at ${telemetryReportPath}`
+            )
+          : unavailable(
+              "production_telemetry",
+              `read ${telemetryReportPath}`,
+              "telemetry report indicates inactive pipeline or no samples"
+            )
+      );
+    } catch {
+      add(
+        unavailable(
+          "production_telemetry",
+          `read ${telemetryReportPath}`,
+          "telemetry report not readable"
+        )
+      );
+    }
+  } else if (query) {
+    try {
+      const res = await query("SELECT count(*)::int AS n FROM telemetry_events");
+      const count = Number(res.rows[0]?.n ?? 0);
+      if (count > 0) {
+        add(
+          observed(
+            "production_telemetry",
+            true,
+            "database",
+            "SELECT count(*) FROM telemetry_events"
+          )
+        );
+      } else {
+        add(
+          unavailable(
+            "production_telemetry",
+            "query usage telemetry",
+            "no telemetry events recorded yet"
+          )
+        );
+      }
+    } catch {
+      add(
+        unavailable(
+          "production_telemetry",
+          "query usage telemetry",
+          "no telemetry pipeline exists"
+        )
+      );
+    }
+  } else {
+    add(
+      unavailable("production_telemetry", "query usage telemetry", "no telemetry pipeline exists")
+    );
+  }
 
   return out;
 }

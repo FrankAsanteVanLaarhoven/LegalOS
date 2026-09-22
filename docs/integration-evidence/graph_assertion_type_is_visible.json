@@ -1,7 +1,7 @@
 {
   "checkId": "graph_assertion_type_is_visible",
   "passed": true,
-  "at": "2026-07-27T14:06:15.687Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/domain/graph-repository.test.ts",
   "demonstrates": "a machine-proposed relationship was refused without its execution and, once cited, was returned as machine_proposed with an agent author and a null traceability claim; a human confirmation could not be attributed to an agent; a disputed assertion dominated the edge's verification state over an earlier confirmation"

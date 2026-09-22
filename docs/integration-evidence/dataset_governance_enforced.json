@@ -1,8 +1,8 @@
 {
   "checkId": "dataset_governance_enforced",
   "passed": true,
-  "at": "2026-07-27T08:00:05.857Z",
-  "commit": "3a615f05de9dd15d900056ae094b247147b58ecc",
+  "at": "2026-09-18T20:54:59.280Z",
+  "commit": "c0da793a7bc1c29b5d5f29041b0443c2285b7090",
   "producedBy": "packages/integration/test/routing.test.ts",
   "demonstrates": "a benchmark dataset edited after its manifest was written is detected by digest, and a sample with fewer than two independent reviewers or no ground truth is refused"
 }

@@ -1,7 +1,7 @@
 {
   "checkId": "deadline_superseded_excluded",
   "passed": true,
-  "at": "2026-07-27T14:06:13.152Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/domain/deadline-repository.test.ts",
   "demonstrates": "a superseded deadline kept its original date, left the open view, remained readable in the history view, and could not be superseded twice; superseding a professionally confirmed deadline preserved its verifier and withheld authority on status alone; equal dates and equal creation times ordered deterministically by id"

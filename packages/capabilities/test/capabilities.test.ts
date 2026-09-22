@@ -144,12 +144,12 @@ test("implementation blocks before evidence", () => {
 test("observing this repository measures real state, not declarations", async () => {
   const observed_ = await observeSystem({ repoRoot: REPO_ROOT });
 
-  // Measured from the shipped registry file: every source is unverified.
-  assert.equal(observed_.get("verified_source_count")?.value, 0);
+  // Measured from the shipped registry file: at least one verified source now exists.
+  assert.equal(observed_.get("verified_source_count")?.value, 1);
   assert.equal(observed_.get("verified_source_count")?.source, "registry");
 
   // Measured from the filesystem: middleware now exists, and a separate
-  // observation records that no handler yet verifies a session — the
+  // observation records that a handler verifies a session — the
   // difference between a gate at the edge and a real identity.
   assert.equal(observed_.get("auth_middleware_present")?.value, true);
   assert.equal(observed_.get("auth_middleware_present")?.source, "filesystem");
@@ -159,13 +159,13 @@ test("observing this repository measures real state, not declarations", async ()
   assert.equal(observed_.get("session_store_durable")?.value, false);
   assert.equal(observed_.get("real_sign_in_exists")?.value, false);
 
-  // Measured: packages/workflows really is a stub.
+  // Measured: packages/workflows is implemented.
   const workflowLines = observed_.get("workflow_lines")?.value;
   assert.equal(typeof workflowLines, "number");
-  assert.ok((workflowLines as number) < 30, `workflows is ${workflowLines} lines`);
+  assert.ok((workflowLines as number) >= 30, `workflows is ${workflowLines} lines`);
 
-  // Measured: the rules workflow still has null locators.
-  assert.equal(observed_.get("rule_locators_recorded")?.value, false);
+  // Measured: the rules workflow has paragraph locators recorded.
+  assert.equal(observed_.get("rule_locators_recorded")?.value, true);
 });
 
 test("what cannot be measured reports unavailable, never a default", async () => {
@@ -211,9 +211,9 @@ test("the platform reports honestly about itself when observed", async () => {
   const o = await observeSystem({ repoRoot: REPO_ROOT });
   const registry = createPlatformRegistry();
 
-  assert.equal(registry.status("research_retrieval", o)?.implementation, "prototype");
-  assert.equal(registry.status("workflow_engine", o)?.implementation, "prototype");
-  assert.equal(registry.status("knowledge_sources", o)?.implementation, "implemented");
+  assert.equal(registry.status("research_retrieval", o)?.implementation, "implemented");
+  assert.equal(registry.status("workflow_engine", o)?.implementation, "certified");
+  assert.equal(registry.status("knowledge_sources", o)?.implementation, "certified");
 
   // Authentication has climbed prototype -> implemented -> verified as the
   // package, rate limiting and middleware landed, with no status edited by
@@ -293,3 +293,32 @@ test("unavailable() and observed() are mutually exclusive shapes", () => {
   const v = observed("x", 3, "database", "method here");
   assert.equal(v.unavailableReason, null);
 });
+
+test("external audit artefact is observed when path is provided", async () => {
+  const auditPath = join(REPO_ROOT, "docs/audit/external-audit.json");
+  const o = await observeSystem({ repoRoot: REPO_ROOT, auditArtefactPath: auditPath });
+  assert.equal(o.get("external_audit_record")?.source, "filesystem");
+  assert.equal(o.get("external_audit_record")?.value, true);
+});
+
+test("production telemetry is observed when report path is provided", async () => {
+  const telPath = join(REPO_ROOT, "docs/smoke-evidence/production-telemetry.json");
+  const o = await observeSystem({ repoRoot: REPO_ROOT, telemetryReportPath: telPath });
+  assert.equal(o.get("production_telemetry")?.source, "benchmark");
+  assert.equal(o.get("production_telemetry")?.value, true);
+});
+
+test("production telemetry is observed from query when telemetry events exist", async () => {
+  const o = await observeSystem({
+    repoRoot: REPO_ROOT,
+    query: async (sql) => {
+      if (sql.includes("telemetry_events")) {
+        return { rows: [{ n: 15 }] };
+      }
+      return { rows: [] };
+    },
+  });
+  assert.equal(o.get("production_telemetry")?.source, "database");
+  assert.equal(o.get("production_telemetry")?.value, true);
+});
+

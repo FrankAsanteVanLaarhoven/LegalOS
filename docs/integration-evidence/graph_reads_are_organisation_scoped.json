@@ -1,7 +1,7 @@
 {
   "checkId": "graph_reads_are_organisation_scoped",
   "passed": true,
-  "at": "2026-07-27T14:06:15.679Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/domain/graph-repository.test.ts",
   "demonstrates": "a caller holding a valid case id from another organisation was refused on read and write; an account with real memberships in two organisations, scoped to the first, could not reach the second; an edge could not be drawn to a node in another case; a client could read the graph and not write to it"

@@ -1,8 +1,8 @@
 {
   "checkId": "release_evidence_enforced",
   "passed": true,
-  "at": "2026-07-27T08:00:05.866Z",
-  "commit": "3a615f05de9dd15d900056ae094b247147b58ecc",
+  "at": "2026-09-18T20:54:59.299Z",
+  "commit": "c0da793a7bc1c29b5d5f29041b0443c2285b7090",
   "producedBy": "packages/integration/test/routing.test.ts",
   "demonstrates": "a release record is refused without a passing readiness result, a recorded migration set, or passing health checks; a rollback is always recordable; and a deployment history edited afterwards fails verification"
 }

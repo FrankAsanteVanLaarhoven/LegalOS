@@ -53,6 +53,14 @@ export {
   databaseNameOf,
 } from "./test-guard.ts";
 export { bootstrapTenancy, type BootstrapInput, type BootstrapResult } from "./bootstrap.ts";
+export {
+  getSqliteDatabase,
+  initializeSqliteDatabase,
+  sqliteQuery,
+  SqlitePool,
+  SqliteSessionStore,
+  SqliteExecutor,
+} from "./sqlite.ts";
 
 export interface Organization {
   id: string;

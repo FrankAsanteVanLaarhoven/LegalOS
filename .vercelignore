@@ -1,0 +1,7 @@
+# Deployment ignore list for Vercel
+.pnpm-store
+.next-smoke
+.smoke-dev.pid
+coverage
+*.sqlite
+*.sqlite-journal

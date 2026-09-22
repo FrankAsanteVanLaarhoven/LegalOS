@@ -11,6 +11,7 @@ import { openRunner, prompt, REGISTRY_VERSION, SYSTEM_TEMPLATE_ID } from "@/lib/
 import { limitModelRoute } from "@/lib/ai/rate-limit";
 import { requireSession } from "@/lib/auth/require-session";
 import { getCaseById } from "@/lib/data/sapana-case";
+import { formatSafeError } from "@/lib/security/data-leakage-guard";
 
 /** `caseId` is required here — analysis without a named case has no meaning. */
 const RequestSchema = z.object({
@@ -149,6 +150,9 @@ export async function POST(req: NextRequest) {
       },
       caseId: legalCase.id,
     });
+  } catch (error) {
+    const safe = formatSafeError(error);
+    return NextResponse.json(safe, { status: 500 });
   } finally {
     await handle.close();
   }

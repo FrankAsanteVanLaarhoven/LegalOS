@@ -50,3 +50,5 @@ next-env.d.ts
 .next-smoke
 .smoke-dev.pid
 .pnpm-store
+*.sqlite
+*.sqlite-journal

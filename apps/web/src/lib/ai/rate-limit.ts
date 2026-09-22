@@ -4,11 +4,12 @@ import {
   POLICIES,
   rateLimitHeaders,
   type Decision,
+  type Policy,
 } from "@legalos/ratelimit";
 import type { NextRequest } from "next/server";
 
 /**
- * Rate limiting for the model-backed routes.
+ * Rate limiting for the platform routes.
  *
  * The counter is in-memory, which is correct for one process and wrong for
  * more than one: behind several instances each enforces the limit separately
@@ -23,7 +24,7 @@ export function rateLimitIsDistributed(): boolean {
 }
 
 /** Best-effort client address. Never trusted as identity — see the package. */
-function addressOf(req: NextRequest): string | null {
+export function addressOf(req: NextRequest): string | null {
   const forwarded = req.headers.get("x-forwarded-for");
   if (forwarded) return forwarded.split(",")[0]?.trim() ?? null;
   return req.headers.get("x-real-ip");
@@ -34,20 +35,91 @@ export interface LimitOutcome {
   readonly headers: Record<string, string>;
 }
 
+/** Auth rate limit policies: strict thresholds to stop automated SMS/Email spam and PIN brute force */
+export const AUTH_START_POLICY: Policy = {
+  id: "auth_start_address",
+  scope: "address",
+  limit: 10,
+  windowMs: 15 * 60 * 1000,
+  onCounterUnavailable: "closed",
+  reason: "Prevents automated sign-in request spamming.",
+};
+
+export const AUTH_VERIFY_POLICY: Policy = {
+  id: "auth_verify_address",
+  scope: "address",
+  limit: 5,
+  windowMs: 15 * 60 * 1000,
+  onCounterUnavailable: "closed",
+  reason: "Prevents brute-force guessing of verification codes.",
+};
+
+export const API_GENERAL_POLICY: Policy = {
+  id: "api_general_address",
+  scope: "address",
+  limit: 600,
+  windowMs: 60 * 60 * 1000,
+  onCounterUnavailable: "open",
+  reason: "Prevents denial of service on general API endpoints.",
+};
+
 /**
  * Applies the model-route limits.
  *
  * Both policies apply, identity first: a signed-in person is judged on their
  * own usage rather than their building's, and the address limit is only a
- * backstop against anonymous automated traffic.
+ * backstop against anonymous automated traffic (INV-007).
  */
 export async function limitModelRoute(
   req: NextRequest,
   identity: string | null,
   now = Date.now()
 ): Promise<LimitOutcome> {
+  const policies: Policy[] = identity
+    ? [POLICIES.model_identity!, POLICIES.model_address!]
+    : [POLICIES.model_address!];
+
   const decision = await checkAll(
-    [POLICIES.model_address!],
+    policies,
+    { identity, address: addressOf(req) },
+    counter,
+    now
+  );
+  return { decision, headers: rateLimitHeaders(decision) };
+}
+
+/**
+ * Rate limit for authentication attempts (start and verify).
+ */
+export async function limitAuthRoute(
+  req: NextRequest,
+  isVerify = false,
+  now = Date.now()
+): Promise<LimitOutcome> {
+  const policy = isVerify ? AUTH_VERIFY_POLICY : AUTH_START_POLICY;
+  const decision = await checkAll(
+    [policy],
+    { identity: null, address: addressOf(req) },
+    counter,
+    now
+  );
+  return { decision, headers: rateLimitHeaders(decision) };
+}
+
+/**
+ * Rate limit for general public or authenticated API routes.
+ */
+export async function limitGeneralApiRoute(
+  req: NextRequest,
+  identity: string | null = null,
+  now = Date.now()
+): Promise<LimitOutcome> {
+  const policies: Policy[] = identity
+    ? [POLICIES.read_identity!, API_GENERAL_POLICY]
+    : [API_GENERAL_POLICY];
+
+  const decision = await checkAll(
+    policies,
     { identity, address: addressOf(req) },
     counter,
     now

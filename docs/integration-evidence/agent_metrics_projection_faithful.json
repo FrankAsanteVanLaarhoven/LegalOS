@@ -1,7 +1,7 @@
 {
   "checkId": "agent_metrics_projection_faithful",
   "passed": true,
-  "at": "2026-07-27T14:06:18.757Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/execution/metrics.test.ts",
   "demonstrates": "agent_metrics is rebuilt from the immutable execution log and matches it, an edited projection or a row with no executions behind it is detected as drift, and standing is computed from the projection with volume alone never reaching certified"

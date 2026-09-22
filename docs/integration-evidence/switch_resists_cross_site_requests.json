@@ -1,7 +1,7 @@
 {
   "checkId": "switch_resists_cross_site_requests",
   "passed": true,
-  "at": "2026-07-27T14:06:12.495Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/authentication/tenant-resolution.test.ts",
   "demonstrates": "only a same-origin POST was permitted to change the active organisation: GET and HEAD were refused, a cross-origin POST was refused, a missing Origin was refused rather than allowed, and a host merely prefixed with the real one was refused"

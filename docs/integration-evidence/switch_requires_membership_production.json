@@ -1,7 +1,7 @@
 {
   "checkId": "switch_requires_membership_production",
   "passed": true,
-  "at": "2026-07-27T14:06:12.257Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/authentication/switch-production.test.ts",
   "demonstrates": "through switchOrganisationCore — the same function the exported server action calls — memberships were loaded from PostgreSQL during the invocation (one call, ordered session → memberships → audit → serialize), maySwitchTo authorised the target, a revoked membership was refused by both the SQL filter and the rule independently, a real inaccessible organisation and a nonexistent one were refused, and a payload carrying actorId, accountId, membershipId, role and permissions changed neither the target nor the audit identity"

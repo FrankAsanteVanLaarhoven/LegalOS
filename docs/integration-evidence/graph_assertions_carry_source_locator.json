@@ -1,7 +1,7 @@
 {
   "checkId": "graph_assertions_carry_source_locator",
   "passed": true,
-  "at": "2026-07-27T14:06:15.697Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/domain/graph-repository.test.ts",
   "demonstrates": "the production EV-005 observer was called directly and reported violated for a source-backed assertion with no evidence, satisfied once real same-case evidence with a non-blank locator was linked, and violated again when the only evidence belonged to another assertion or another case; blank locators were refused by the repository and independently by a database constraint; dangling evidence ids are impossible because graph_evidence_links.evidence_id is a real foreign key, which is asserted rather than assumed"

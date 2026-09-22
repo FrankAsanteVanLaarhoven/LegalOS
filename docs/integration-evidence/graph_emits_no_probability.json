@@ -1,7 +1,7 @@
 {
   "checkId": "graph_emits_no_probability",
   "passed": true,
-  "at": "2026-07-27T14:06:15.684Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/domain/graph-repository.test.ts",
   "demonstrates": "a recursive scan of every emitted node, edge, assertion and evidence link found no numeric field and no field named for confidence, probability, likelihood, certainty, credibility, score, risk, strength, weight, trust, quality or reliability; the same scan applied to the same object with a confidence field added reported it, so the scan can fail"

@@ -1,7 +1,7 @@
 {
   "checkId": "active_org_cookie_observed",
   "passed": true,
-  "at": "2026-07-27T14:40:04.903Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "5851e7f487d4a88c7a0da1698c7106276e1e348d",
   "producedBy": "packages/integration/test/authentication/set-cookie-observation.test.ts",
   "demonstrates": "the Set-Cookie header emitted for a successful switch was parsed and carries name legalos_active_org, Path=/, HttpOnly, SameSite=Lax, Max-Age=2592000 and — in production configuration only — Secure, with development measured separately rather than one header claimed universal; the value is an organisation id and a base64url MAC containing no account id, name, role, permissions, membership list or session token; refusal, cross-origin invocation, audit failure and an already-active no-op each produced no cookie mutation at all; identifiers carrying ';', CR or LF were refused before serialization and the signer emits no delimiter; submitted httpOnly, secure, sameSite, path, maxAge and domain fields did not reach the header. The claim is bounded to the header the server emits — nothing here demonstrates browser storage or attribute enforcement"

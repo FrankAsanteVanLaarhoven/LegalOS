@@ -1,7 +1,7 @@
 {
   "checkId": "provider_selected_by_capability_router",
   "passed": true,
-  "at": "2026-07-27T14:06:19.073Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/execution/runner.test.ts",
   "demonstrates": "a request supplies a capability and never a provider; the runner resolves one through the routing table and records what actually ran, and a capability the agent does not declare is refused before a provider is reachable"

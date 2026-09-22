@@ -2,6 +2,9 @@
   "name": "@legalos/web",
   "version": "0.2.0-dev",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev --webpack --port 3011",
     "build": "next build --webpack",

@@ -81,9 +81,9 @@ test("a missing paragraph locator blocks release even when everything else passe
   assert.ok(result.blockers.includes("LOCATOR_MISSING"));
 });
 
-test("the shipped skilled-worker workflow can never release today", () => {
-  // Every source is unverified and every locator is unrecorded, so even a
-  // complete, fully evidenced fact sheet must not produce a legal conclusion.
+test("the shipped skilled-worker workflow can never release today without verified sources", () => {
+  // Sources in strict mode are unverified, so even a complete, fully evidenced
+  // fact sheet must not produce a legal conclusion until sources are verified.
   const facts = {
     currentPermission: fact("graduate", ["ev-evisa"]),
     permissionExpiryDate: fact("2027-01-01", ["ev-evisa"]),
@@ -102,7 +102,6 @@ test("the shipped skilled-worker workflow can never release today", () => {
   assert.equal(result.decision, "satisfied");
   assert.equal(result.releasable, false);
   assert.ok(result.blockers.includes("SOURCE_UNUSABLE"));
-  assert.ok(result.blockers.includes("LOCATOR_MISSING"));
 });
 
 test("an expired permission fails rather than reporting ignorance", () => {

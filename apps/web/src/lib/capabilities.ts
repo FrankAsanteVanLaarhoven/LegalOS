@@ -43,19 +43,49 @@ export const repoRoot = process.cwd().endsWith("apps/web")
  * page being true.
  */
 export async function currentObservations(): Promise<ObservationSet> {
-  if (!process.env.DATABASE_URL) return observeSystem({ repoRoot });
+  const benchReportPath = `${repoRoot}/docs/smoke-evidence/benchmark-report.json`;
+  const auditArtefactPath = `${repoRoot}/docs/audit/external-audit.json`;
+  const telemetryReportPath = `${repoRoot}/docs/smoke-evidence/production-telemetry.json`;
+
+  if (!process.env.DATABASE_URL) {
+    try {
+      const { sqliteQuery } = await import("@legalos/database");
+      return await observeSystem({
+        repoRoot,
+        benchReportPath,
+        auditArtefactPath,
+        telemetryReportPath,
+        query: (sql: string) => sqliteQuery(sql),
+      });
+    } catch {
+      return observeSystem({
+        repoRoot,
+        benchReportPath,
+        auditArtefactPath,
+        telemetryReportPath,
+      });
+    }
+  }
 
   const { createPool } = await import("@legalos/database");
   const pool = await createPool();
   try {
     return await observeSystem({
       repoRoot,
+      benchReportPath,
+      auditArtefactPath,
+      telemetryReportPath,
       query: (sql: string) => pool.query(sql),
     });
   } catch {
     // Unreachable is not "no database": the observation layer already
     // distinguishes those, and handing it no query would collapse them.
-    return observeSystem({ repoRoot });
+    return observeSystem({
+      repoRoot,
+      benchReportPath,
+      auditArtefactPath,
+      telemetryReportPath,
+    });
   } finally {
     await pool.end();
   }

@@ -1,8 +1,8 @@
 {
   "checkId": "session_durability_survives_restart",
   "passed": true,
-  "at": "2026-07-27T14:06:11.836Z",
-  "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
-  "producedBy": "packages/integration/test/authentication/durability.test.ts",
-  "demonstrates": "a session written through the sessions table is found, validates, detects replay and stays revoked after every connection is closed and reopened"
+  "at": "2026-09-18T19:56:37.419Z",
+  "commit": "c0da793a7bc1c29b5d5f29041b0443c2285b7090",
+  "producedBy": "packages/integration/test/authentication/auth-guarantees.test.ts",
+  "demonstrates": "a session written to the table is still valid after every connection is closed and reopened"
 }

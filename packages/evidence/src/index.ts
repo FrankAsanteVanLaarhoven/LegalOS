@@ -47,3 +47,11 @@ export type {
   TranslationAttestation,
   TranslationFlag,
 } from "./types.ts";
+
+export { DocumentAiOcrEngine, TesseractOcrEngine, type OcrEngineOptions } from "./ocr.ts";
+export {
+  reconstructChronologyFromEvidence,
+  type ReconstructedTimeline,
+  type TimelineDiscrepancy,
+  type TimelineEvent,
+} from "./timeline.ts";

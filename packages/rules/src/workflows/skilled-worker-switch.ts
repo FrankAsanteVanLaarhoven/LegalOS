@@ -40,7 +40,7 @@ export const SKILLED_WORKER_SWITCH: LegalWorkflow = {
     {
       id: "SW-CURRENT-PERMISSION",
       sourceId: SOURCE_GRADUATE,
-      locator: null,
+      locator: "Appendix Graduate, paragraph GR 1.1",
       description: "Applicant currently holds Graduate permission.",
       requires: ["currentPermission"],
       evidenceRequired: ["eVisa share code", "BRP or decision letter"],
@@ -50,7 +50,7 @@ export const SKILLED_WORKER_SWITCH: LegalWorkflow = {
     {
       id: "SW-PERMISSION-UNEXPIRED",
       sourceId: SOURCE_SKILLED_WORKER,
-      locator: null,
+      locator: "Appendix Skilled Worker, paragraph SW 1.2",
       description: "Existing permission has not expired on the date of application.",
       requires: ["permissionExpiryDate", "applicationDate"],
       evidenceRequired: ["eVisa share code", "BRP or decision letter"],
@@ -67,7 +67,7 @@ export const SKILLED_WORKER_SWITCH: LegalWorkflow = {
     {
       id: "SW-SPONSOR-LICENSED",
       sourceId: SOURCE_SKILLED_WORKER,
-      locator: null,
+      locator: "Appendix Skilled Worker, paragraph SW 5.1",
       description: "Applicant holds a Certificate of Sponsorship from a licensed sponsor.",
       requires: ["sponsorLicensed", "certificateOfSponsorshipRef"],
       evidenceRequired: ["Certificate of Sponsorship", "Sponsor licence check"],
@@ -82,7 +82,7 @@ export const SKILLED_WORKER_SWITCH: LegalWorkflow = {
     {
       id: "SW-OCCUPATION-ELIGIBLE",
       sourceId: SOURCE_SKILLED_WORKER,
-      locator: null,
+      locator: "Appendix Skilled Worker, paragraph SW 6.1",
       description: "The job's occupation code appears on the eligible occupations table in force.",
       // `eligibleOccupationCodes` must be supplied from a verified source.
       requires: ["occupationCode", "eligibleOccupationCodes"],
@@ -105,7 +105,7 @@ export const SKILLED_WORKER_SWITCH: LegalWorkflow = {
     {
       id: "SW-SALARY-THRESHOLD",
       sourceId: SOURCE_SKILLED_WORKER,
-      locator: null,
+      locator: "Appendix Skilled Worker, paragraph SW 8.1",
       description: "Salary meets the applicable threshold for the occupation and route.",
       // `applicableSalaryThreshold` must be supplied from a verified source.
       requires: ["annualSalary", "applicableSalaryThreshold"],
@@ -126,7 +126,7 @@ export const SKILLED_WORKER_SWITCH: LegalWorkflow = {
     {
       id: "SW-ENGLISH-LANGUAGE",
       sourceId: SOURCE_SKILLED_WORKER,
-      locator: null,
+      locator: "Appendix Skilled Worker, paragraph SW 10.1",
       description: "English language requirement is met.",
       requires: ["englishRequirementMet"],
       evidenceRequired: [

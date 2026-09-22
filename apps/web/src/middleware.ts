@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE } from "@/lib/auth/cookies";
+import { limitAuthRoute } from "@/lib/ai/rate-limit";
 
 /**
  * Route gating.
@@ -42,6 +43,11 @@ const PUBLIC_API = [
    */
   "/api/auth/start",
   "/api/auth/verify",
+  /**
+   * The LegalOS Companion chatbot answers public questions about legal processes
+   * across all pages without requiring account sign-in.
+   */
+  "/api/chat",
 ];
 
 function isPublicApi(pathname: string): boolean {
@@ -52,27 +58,65 @@ function isPublicApi(pathname: string): boolean {
  * A session token is opaque and base64url. This checks shape only — a
  * well-formed token proves nothing, and the handler still verifies it.
  */
+const SENSITIVE_CACHE_HEADERS: Record<string, string> = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+  Pragma: "no-cache",
+  "Surrogate-Control": "no-store",
+  "X-Content-Type-Options": "nosniff",
+};
+
+function applySensitiveHeaders(res: NextResponse): NextResponse {
+  for (const [key, value] of Object.entries(SENSITIVE_CACHE_HEADERS)) {
+    res.headers.set(key, value);
+  }
+  return res;
+}
+
 function hasPlausibleSession(req: NextRequest): boolean {
   const value = req.cookies.get(SESSION_COOKIE)?.value;
   return typeof value === "string" && /^[A-Za-z0-9_-]{20,}$/.test(value);
 }
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // 1. Rate-limit authentication routes to stop automated spam & PIN brute force
+  if (pathname === "/api/auth/start" || pathname === "/api/auth/verify") {
+    const isVerify = pathname === "/api/auth/verify";
+    const { decision, headers } = await limitAuthRoute(req, isVerify);
+    if (!decision.allowed) {
+      const retryAfter = Math.max(1, Math.ceil((decision.resetAt - Date.now()) / 1000));
+      const res = NextResponse.json(
+        {
+          error: decision.message ?? "Too many attempts. Please try again later.",
+          code: "RATE_LIMITED",
+        },
+        { status: 429, headers: { ...headers, "Retry-After": String(retryAfter) } }
+      );
+      return applySensitiveHeaders(res);
+    }
+  }
+
   if (pathname.startsWith("/api")) {
-    if (isPublicApi(pathname) || hasPlausibleSession(req)) return NextResponse.next();
+    if (isPublicApi(pathname) || hasPlausibleSession(req)) {
+      const res = NextResponse.next();
+      return applySensitiveHeaders(res);
+    }
 
     // JSON for an API route: a redirect here would return a login page body to
     // something expecting data, which is worse than an honest 401.
-    return NextResponse.json(
+    const res = NextResponse.json(
       { error: "Sign in to continue.", code: "UNAUTHENTICATED" },
       { status: 401 }
     );
+    return applySensitiveHeaders(res);
   }
 
   if (pathname.startsWith("/workspace")) {
-    if (hasPlausibleSession(req)) return NextResponse.next();
+    if (hasPlausibleSession(req)) {
+      const res = NextResponse.next();
+      return applySensitiveHeaders(res);
+    }
 
     const signIn = new URL("/sign-in", req.url);
     // Preserved so a person returns to what they were doing rather than a

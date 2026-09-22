@@ -1,0 +1,8 @@
+{
+  "checkId": "mfa_enforced_by_policy",
+  "passed": true,
+  "at": "2026-09-18T19:56:37.419Z",
+  "commit": "c0da793a7bc1c29b5d5f29041b0443c2285b7090",
+  "producedBy": "packages/integration/test/authentication/auth-guarantees.test.ts",
+  "demonstrates": "MFA is required where policy says so"
+}

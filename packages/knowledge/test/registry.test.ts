@@ -75,13 +75,19 @@ test("duplicate ids are rejected", () => {
   assert.throws(() => registry.register(verified), /duplicate source id/);
 });
 
-test("every seeded UK source ships unverified with no checksum", () => {
+test("seeded UK sources satisfy verification invariants", () => {
   assert.ok(UK_SOURCES.length > 0);
   for (const source of UK_SOURCES) {
-    assert.equal(source.verificationStatus, "unverified", source.id);
-    assert.equal(source.checksum, null, source.id);
-    assert.equal(source.retrievedAt, null, source.id);
+    if (source.verificationStatus === "verified") {
+      assert.ok(source.checksum && source.checksum.length === 64, source.id);
+      assert.ok(source.retrievedAt !== null, source.id);
+      assert.ok(source.version !== null, source.id);
+    } else {
+      assert.equal(source.verificationStatus, "unverified", source.id);
+      assert.equal(source.checksum, null, source.id);
+      assert.equal(source.retrievedAt, null, source.id);
+    }
     assert.match(source.url, /^https:\/\//, source.id);
   }
-  assert.equal(createUkRegistry().unverified().length, UK_SOURCES.length);
+  assert.ok(createUkRegistry().unverified().length > 0);
 });

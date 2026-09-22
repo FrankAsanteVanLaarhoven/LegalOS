@@ -1,7 +1,7 @@
 {
   "checkId": "dual_membership_isolated_at_session",
   "passed": true,
-  "at": "2026-07-27T14:06:12.477Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/authentication/tenant-resolution.test.ts",
   "demonstrates": "one account with real memberships in two organisations resolved exactly the organisation its signed selection named, with the governing role read per tenancy from the real membership rows — caseworker in alpha, solicitor in beta"

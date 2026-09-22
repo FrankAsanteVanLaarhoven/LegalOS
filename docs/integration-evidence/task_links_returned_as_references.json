@@ -1,7 +1,7 @@
 {
   "checkId": "task_links_returned_as_references",
   "passed": true,
-  "at": "2026-07-27T14:06:18.467Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/domain/task-repository.test.ts",
   "demonstrates": "dependencies and evidence links were returned as identifiers with an unresolved-predecessor summary rather than flattened into text; self-dependency, two- and three-task cycles and duplicates were all refused; removing either kind left an immutable event recording that it had existed, and the evidence item itself survived"

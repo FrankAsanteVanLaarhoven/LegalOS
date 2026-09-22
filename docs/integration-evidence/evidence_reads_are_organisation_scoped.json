@@ -1,7 +1,7 @@
 {
   "checkId": "evidence_reads_are_organisation_scoped",
   "passed": true,
-  "at": "2026-07-27T14:06:14.446Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/domain/evidence-repository.test.ts",
   "demonstrates": "an account holding real memberships in two organisations, on a session scoped to the first, could neither read nor write the second's evidence, and reached it when scoped to the second — the case the organisation predicate itself refuses"

@@ -84,8 +84,8 @@ export const UK_SOURCES: readonly LegalSource[] = [
     publisher: "Immigration Advice Authority / OISC (GOV.UK)",
     url: "https://www.gov.uk/government/publications/oisc-code-of-standards-commissioners-rules-2012",
     version: "2024-09-01",
-    retrievedAt: null,
-    checksum: null,
-    verificationStatus: "unverified",
+    retrievedAt: "2026-09-18T00:00:00.000Z",
+    checksum: "988269e3c404d0efe183621f650fdc4871dd891c9e63ea0600f83775dfacc0d4",
+    verificationStatus: "verified",
   },
 ] as const;

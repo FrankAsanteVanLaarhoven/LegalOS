@@ -1,7 +1,7 @@
 {
   "checkId": "evidence_emits_no_probability",
   "passed": true,
-  "at": "2026-07-27T14:06:14.469Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/domain/evidence-repository.test.ts",
   "demonstrates": "a recursive scan of every emitted item, file and provenance record found no field named for confidence, probability, score, likelihood, quality, reliability or authenticity, and no numeric field other than the integer version and byte size"

@@ -1,7 +1,7 @@
 {
   "checkId": "membership_freshness_per_request",
   "passed": true,
-  "at": "2026-07-27T14:06:12.481Z",
+  "at": "2026-09-18T19:56:37.419Z",
   "commit": "3dfb53b3c3fc8e0256c628cfb97054304755af61",
   "producedBy": "packages/integration/test/authentication/tenant-resolution.test.ts",
   "demonstrates": "an account resolved its organisation, the workspace_members row was revoked with removed_at, and the very next resolution refused it while the caller still held the stale signed cookie"

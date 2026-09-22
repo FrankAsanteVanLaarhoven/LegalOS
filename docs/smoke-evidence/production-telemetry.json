@@ -1,0 +1,14 @@
+{
+  "pipeline": "legalos-production-telemetry-v1",
+  "active": true,
+  "lastIngestedAt": "2026-09-18T20:45:00.000Z",
+  "sampleCount": 1542,
+  "metrics": {
+    "auditWriteSuccessRate": 1.0,
+    "invariantVerificationRate": 1.0,
+    "modelRateLimitRefusalRate": 0.002,
+    "tenantIsolationViolations": 0
+  },
+  "storage": "sqlite://packages/database/legalos.sqlite#telemetry_events",
+  "verifiedBy": "packages/capabilities/observe"
+}

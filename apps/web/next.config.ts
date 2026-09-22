@@ -14,6 +14,7 @@ const WORKSPACE_PACKAGES = [
   "@legalos/execution",
   "@legalos/fiduciary",
   "@legalos/governance",
+  "@legalos/identity",
   "@legalos/invariants",
   "@legalos/knowledge",
   "@legalos/policy",
@@ -76,6 +77,36 @@ const securityHeaders = [
     key: "Strict-Transport-Security",
     value: "max-age=63072000; includeSubDomains; preload",
   },
+  {
+    key: "X-Permitted-Cross-Domain-Policies",
+    value: "none",
+  },
+];
+
+/**
+ * Strict anti-leakage caching headers for sensitive data.
+ *
+ * Prevents intermediate proxies, CDN caches, and shared public browser disks
+ * (critical for users accessing LegalOS from public libraries, community centres,
+ * and asylum accommodation) from caching case files, evidence, and session data.
+ */
+const sensitiveCacheHeaders = [
+  {
+    key: "Cache-Control",
+    value: "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+  },
+  { key: "Pragma", value: "no-cache" },
+  { key: "Surrogate-Control", value: "no-store" },
+];
+
+/**
+ * Safe caching for public statutory references and platform governance policies.
+ */
+const publicCacheHeaders = [
+  {
+    key: "Cache-Control",
+    value: "public, max-age=3600, stale-while-revalidate=86400",
+  },
 ];
 
 /**
@@ -104,7 +135,17 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   poweredByHeader: false,
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      { source: "/api/:path*", headers: sensitiveCacheHeaders },
+      { source: "/workspace/:path*", headers: sensitiveCacheHeaders },
+      { source: "/resources/:path*", headers: publicCacheHeaders },
+      { source: "/terms", headers: publicCacheHeaders },
+      { source: "/privacy", headers: publicCacheHeaders },
+      { source: "/cookies", headers: publicCacheHeaders },
+      { source: "/complaints", headers: publicCacheHeaders },
+      { source: "/governance", headers: publicCacheHeaders },
+    ];
   },
 };
 
